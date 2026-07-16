@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRK Clan</title>
+    <!-- Link para ícones (opcional, mas dá um toque legal) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== RESET E ESTILOS GERAIS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0e14;
+            color: #e0e4ec;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== MENU SUPERIOR (ESTILO GAMERS CLUB) ===== */
+        .navbar {
+            background: #151c26;
+            border-bottom: 2px solid #f7941d;
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar .logo i {
+            color: #f7941d;
+            font-size: 2rem;
+        }
+
+        .navbar .logo span {
+            color: #f7941d;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .nav-links li a {
+            color: #b0b9c9;
+            transition: 0.2s;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links li a:hover {
+            color: #fff;
+            border-bottom-color: #f7941d;
+        }
+
+        .nav-links li a.ativo {
+            color: #fff;
+            border-bottom-color: #f7941d;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-area .notificacao {
+            color: #b0b9c9;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .user-area .notificacao .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #f7941d;
+            color: #0b0e14;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        .user-area .perfil {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #1f2a36;
+            padding: 5px 15px 5px 5px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .user-area .perfil:hover {
+            background: #2a3747;
+        }
+
+        .user-area .perfil img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #f7941d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0b0e14;
+        }
+
+        .user-area .perfil .nick {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-area .perfil .nick small {
+            display: block;
+            font-weight: 400;
+            font-size: 0.65rem;
+            color: #b0b9c9;
+        }
+
+        /* ===== FRASE DESTAQUE ===== */
+        .frase-destaque {
+            background: linear-gradient(90deg, #1f2a36, #151c26);
+            padding: 0.8rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #2a3747;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #e0e4ec;
+            letter-spacing: 0.5px;
+            margin-left: 240px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .frase-destaque i {
+            color: #f7941d;
+            margin: 0 8px;
+        }
+
+        .frase-destaque .destaque-texto {
+            color: #f7941d;
+            font-weight: 700;
+        }
+
+        /* ===== WRAPPER PRINCIPAL COM SIDEBAR ===== */
+        .main-wrapper {
+            display: flex;
+            flex: 1;
+            position: relative;
+        }
+
+        /* ===== SIDEBAR - RANKINGS FIXO NA ESQUERDA ===== */
+        .sidebar-ranking {
+            position: fixed;
+            left: 0;
+            top: 70px;
+            width: 240px;
+            height: calc(100vh - 70px);
+            background: #11171f;
+            border-right: 2px solid #f7941d;
+            padding: 1rem 0.8rem;
+            overflow-y: auto;
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-ranking::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-ranking::-webkit-scrollbar-track {
+            background: #151c26;
+        }
+
+        .sidebar-ranking::-webkit-scrollbar-thumb {
+            background: #f7941d;
+            border-radius: 4px;
+        }
+
+        /* ===== ESTILOS DOS RANKINGS NO SIDEBAR ===== */
+        .sidebar-ranking .ranking-bloco {
+            margin-bottom: 1.2rem;
+        }
+
+        .sidebar-ranking .ranking-bloco:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-ranking .ranking-titulo {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid #2a3747;
+            padding-bottom: 0.4rem;
+        }
+
+        .sidebar-ranking .ranking-titulo i {
+            color: #f7941d;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-ranking .ranking-titulo span {
+            color: #f7941d;
+        }
+
+        .sidebar-ranking .ranking-lista {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-ranking .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 8px;
+            margin-bottom: 1px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .sidebar-ranking .ranking-item:hover {
+            background: rgba(247, 148, 29, 0.1);
+        }
+
+        .sidebar-ranking .ranking-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-ranking .ranking-posicao {
+            font-weight: 700;
+            color: #8895aa;
+            min-width: 20px;
+            font-size: 0.7rem;
+            text-align: center;
+        }
+
+        .sidebar-ranking .ranking-posicao.ouro {
+            color: #ffd700;
+        }
+
+        .sidebar-ranking .ranking-posicao.prata {
+            color: #c0c0c0;
+        }
+
+        .sidebar-ranking .ranking-posicao.bronze {
+            color: #cd7f32;
+        }
+
+        .sidebar-ranking .ranking-nick {
+            color: #e0e4ec;
+            font-weight: 500;
+            flex: 1;
+            font-size: 0.8rem;
+        }
+
+        .sidebar-ranking .ranking-nick.destaque {
+            color: #f7941d;
+            font-weight: 700;
+        }
+
+        .sidebar-ranking .ranking-valor {
+            color: #8895aa;
+            font-size: 0.65rem;
+            background: #1f2a36;
+            padding: 1px 8px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+
+        .sidebar-ranking .ranking-divisor {
+            border-bottom: 1px solid #2a3747;
+            margin: 0.8rem 0;
+        }
+
+
+        .site-header {
+    width: 90%;
+    background: #111;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 60px;      /* Ajuste conforme desejar */
+    width: auto;
+    display: block;
+}
+
+        /* ===== CONTEÚDO PRINCIPAL (COM MARGEM PARA O SIDEBAR) ===== */
+        .content-area {
+            flex: 1;
+            margin-left: 240px;
+            padding: 2rem 2rem 0 2rem;
+            min-height: calc(100vh - 70px);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== IMAGEM DE FUNDO DECORATIVA ===== */
+        .content-area::before {
+            content: '';
+            position: fixed;
+            right: 0;
+            top: 60%;
+            transform: translateY(-0%);
+            transform: translateX(-155%);
+            width: 666px;
+            height: 375px;
+            background-image: url('imagens/bg.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.95;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 20px;
+        }
+
+        /* ===== CONTEÚDO PRINCIPAL (LOBBY) ===== */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== BANNER DE PROPAGANDA ===== */
+        .banner-propaganda {
+            background: linear-gradient(135deg, #1f2a36, #2a3747);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border: 1px solid #2a3747;
+            position: relative;
+            overflow: hidden;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            margin-bottom: 2.5rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(21, 28, 38, 0.85);
+            backdrop-filter: blur(4px);
+        }
+
+        .banner-propaganda:hover {
+            border-color: #f7941d;
+            box-shadow: 0 0 30px rgba(247, 148, 29, 0.1);
+        }
+
+        .banner-propaganda::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(247, 148, 29, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .banner-propaganda .banner-conteudo {
+            position: relative;
+            z-index: 1;
+        }
+
+        .banner-propaganda .banner-titulo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .banner-propaganda .banner-titulo i {
+            color: #f7941d;
+            margin-right: 10px;
+        }
+
+        .banner-propaganda .banner-subtitulo {
+            color: #b0b9c9;
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .banner-propaganda .banner-botao {
+            background: #f7941d;
+            color: #0b0e14;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .banner-propaganda .banner-botao:hover {
+            background: #ffa82e;
+            transform: scale(1.05);
+        }
+
+        .banner-propaganda .banner-badge {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f7941d;
+            color: #0b0e14;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 4px 16px;
+            border-radius: 20px;
+            z-index: 2;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== STATUS GRID (CENTRALIZADO) ===== */
+        .status-grid-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 2.5rem;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .status-card {
+            background: rgba(21, 28, 38, 0.85);
+            backdrop-filter: blur(4px);
+            padding: 1.5rem 1.2rem;
+            border-radius: 12px;
+            border-left: 4px solid #f7941d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-card .titulo {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #8895aa;
+            letter-spacing: 0.5px;
+        }
+
+        .status-card .valor {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .status-card .valor i {
+            color: #f7941d;
+            font-size: 1.4rem;
+            margin-right: 8px;
+        }
+
+        /* ===== SEÇÃO DE NOTÍCIAS ===== */
+        .noticias-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .noticias-header h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .noticias-header h2 i {
+            color: #f7941d;
+            margin-right: 10px;
+        }
+
+        .noticias-header .noticias-filtros {
+            display: flex;
+            gap: 10px;
+        }
+
+        .noticias-header .noticias-filtros button {
+            background: rgba(31, 42, 54, 0.85);
+            backdrop-filter: blur(4px);
+            border: none;
+            color: #b0b9c9;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .noticias-header .noticias-filtros button:hover,
+        .noticias-header .noticias-filtros button.ativo {
+            background: #f7941d;
+            color: #0b0e14;
+        }
+
+        .noticias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== CARD DE NOTÍCIA ===== */
+        .noticia-card {
+            background: rgba(21, 28, 38, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid #1f2a36;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .noticia-card:hover {
+            border-color: #f7941d;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(247, 148, 29, 0.15);
+        }
+
+        .noticia-card .noticia-imagem {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #1f2a36;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #f7941d;
+            position: relative;
+        }
+
+        .noticia-card .noticia-imagem img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .noticia-card .noticia-categoria {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #f7941d;
+            color: #0b0e14;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .noticia-card .noticia-data {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(11, 14, 20, 0.8);
+            color: #b0b9c9;
+            font-size: 0.65rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+        }
+
+        .noticia-card .noticia-corpo {
+            padding: 1.2rem 1.2rem 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .noticia-card .noticia-titulo {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            transition: 0.2s;
+        }
+
+        .noticia-card:hover .noticia-titulo {
+            color: #f7941d;
+        }
+
+        .noticia-card .noticia-resumo {
+            color: #8895aa;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            flex: 1;
+            margin-bottom: 1rem;
+        }
+
+        .noticia-card .noticia-rodape {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #1f2a36;
+            padding-top: 0.8rem;
+        }
+
+        .noticia-card .noticia-autor {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: #b0b9c9;
+        }
+
+        .noticia-card .noticia-autor i {
+            color: #f7941d;
+            font-size: 0.9rem;
+        }
+
+        .noticia-card .noticia-autor span {
+            color: #f7941d;
+            font-weight: 600;
+        }
+
+        .noticia-card .noticia-comentarios {
+            color: #8895aa;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .noticia-card .noticia-comentarios i {
+            color: #f7941d;
+        }
+
+        .noticia-card .noticia-btn {
+            background: transparent;
+            border: 1px solid #f7941d;
+            color: #f7941d;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .noticia-card .noticia-btn:hover {
+            background: #f7941d;
+            color: #0b0e14;
+        }
+
+        /* ===== RODAPÉ ===== */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #44505f;
+            font-size: 0.8rem;
+            border-top: 1px solid #1f2a36;
+            margin-top: 2rem;
+            margin-left: 240px;
+            position: relative;
+            z-index: 2;
+            background: rgba(11, 14, 20, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+        }
+
+        .footer .footer-text {
+            flex: 1;
+            text-align: center;
+        }
+
+        .footer .footer-social {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer .footer-social a {
+            color: #b0b9c9;
+            font-size: 1.4rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer .footer-social a:hover {
+            color: #f7941d;
+            transform: scale(1.1);
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 992px) {
+            .sidebar-ranking {
+                position: fixed;
+                left: -280px;
+                top: 70px;
+                width: 260px;
+                height: calc(100vh - 70px);
+                transition: left 0.3s ease;
+            }
+
+            .sidebar-ranking.aberto {
+                left: 0;
+            }
+
+            .content-area {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .content-area::before {
+                width: 300px;
+                height: 169px;
+                opacity: 0.1;
+            }
+
+            .footer {
+                margin-left: 0;
+            }
+
+            .frase-destaque {
+                margin-left: 0;
+            }
+
+            .sidebar-toggle {
+                display: flex !important;
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                z-index: 60;
+                background: #f7941d;
+                color: #0b0e14;
+                border: none;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(247, 148, 29, 0.3);
+                transition: 0.2s;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .sidebar-toggle:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 25px rgba(247, 148, 29, 0.5);
+            }
+
+            .status-grid {
+                max-width: 100%;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .noticias-header {
+                max-width: 100%;
+            }
+
+            .noticias-grid {
+                max-width: 100%;
+            }
+
+            .banner-propaganda {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                height: auto;
+                padding: 1rem;
+                gap: 10px;
+                flex-direction: column;
+            }
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .user-area {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .frase-destaque {
+                font-size: 0.85rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .banner-propaganda {
+                padding: 1.5rem 1rem;
+                min-height: 120px;
+            }
+
+            .banner-propaganda .banner-titulo {
+                font-size: 1.2rem;
+            }
+
+            .banner-propaganda .banner-badge {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                margin-bottom: 10px;
+                display: inline-block;
+            }
+
+            .noticias-header {
+                flex-direction: column;
+                align-items: start;
+                gap: 15px;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .content-area::before {
+                width: 200px;
+                height: 113px;
+                opacity: 0.08;
+            }
+
+            .noticia-card .noticia-imagem {
+                height: 150px;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.8rem;
+            }
+
+            .footer .footer-text {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .banner-propaganda .banner-titulo {
+                font-size: 1rem;
+            }
+            .banner-propaganda .banner-subtitulo {
+                font-size: 0.85rem;
+            }
+            .banner-propaganda .banner-botao {
+                padding: 8px 20px;
+                font-size: 0.8rem;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .noticias-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-toggle {
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+                bottom: 15px;
+                left: 15px;
+            }
+
+            .content-area::before {
+                width: 150px;
+                height: 84px;
+                opacity: 0.05;
+            }
+
+            .noticia-card .noticia-imagem {
+                height: 120px;
+            }
+        }
+
+        .sidebar-toggle {
+            display: none;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 70px);
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 45;
+        }
+
+        .sidebar-overlay.ativo {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== MENU SUPERIOR ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="#">
+        <img src="imagens/logo.png" alt="DRK Clan" class="logo">
+    </a>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#" class="ativo">Elenco</a></li>
+            <li><a href="#">Ranking</a></li>
+            <li><a href="#">Hall da fama</a></li>
+            <li><a href="#">Highlights</a></li>
+            <li><a href="#">Sorteios</a></li>
+        </ul>
+
+        <div class="user-area">
+            
+            <div class="perfil2">
+                <img src="imagens/gamersclub.png">
+                
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== FRASE DESTAQUE ===== -->
+    <div class="frase-destaque">
+        <i class="fas fa-quote-left"></i>
+        Bem-vindo ao site do <span class="destaque-texto">clan DRK</span>!
+        Junte-se a nós e domine o <span class="destaque-texto">CS2</span> com honra e estratégia.
+        <i class="fas fa-quote-right"></i>
+    </div>
+
+    <!-- ===== OVERLAY PARA MOBILE ===== -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ===== BOTÃO PARA ABRIR SIDEBAR (MOBILE) ===== -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- ===== MAIN WRAPPER COM SIDEBAR ===== -->
+    <div class="main-wrapper">
+
+        <!-- ===== SIDEBAR - RANKINGS FIXO NA ESQUERDA ===== -->
+        <aside class="sidebar-ranking" id="sidebarRanking">
+            
+            <!-- RANKING MIX -->
+            <div class="ranking-bloco">
+                <div class="ranking-titulo">
+                    <i class="fas fa-trophy"></i> Ranking <span>MIX</span>
+                </div>
+                <ul class="ranking-lista">
+                    <li class="ranking-item">
+                        <span class="ranking-posicao ouro">1</span>
+                        <span class="ranking-nick destaque">Ney Gordo</span>
+                        <span class="ranking-valor">2.450</span>
+                    </li>
+                    <li class="ranking-item">
+                        <span class="ranking-posicao prata">2</span>
+                        <span class="ranking-nick">Fallen</span>
+                        <span class="ranking-valor">2.320</span>
+                    </li>
+                    <li class="ranking-item">
+                        <span class="ranking-posicao bronze">3</span>
+                        <span class="ranking-nick">Coldzera</span>
+                        <span class="ranking-valor">2.180</span>
+                    </li>
+                    <li class="ranking-item">
+                        <span class="ranking-posicao">4</span>
+                        <span class="ranking-nick">Fer</span>
+                        <span class="ranking-valor">1.950</span>
+                    </li>
+                    <li class="ranking-item">
+                        <span class="ranking-posicao">5</span>
+                        <span class="ranking-nick">Taco</span>
+                        <span class="ranking-valor">1.870</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- DIVISOR -->
+            <div class="ranking-divisor"></div>
+
+            <!-- RANKING KDR -->
+            <div class="ranking-bloco">
+                <div class="ranking-titulo">
+                    <i class="fas fa-crosshairs"></i> Ranking <span>KDR</span>
+                </div>
+                <ul class="ranking-lista">
+                    <li class="ranking-item">
+                        <span class="ranking-posicao ouro">1</span>
+                        <span class="ranking-nick destaque">S1mple</span>
+                        <span class="ranking-valor">1.85</span>
+                    </li>
+                    <li class="ranking-item">
+                        <span class="ranking-posicao prata">2</span>
+                        <span class="ranking-nick">ZywOo</span>
+                        <span class="ranking-valor">1.72</span>
+                    </li>
+                    <li class="ranking-item">
+                        <span class="ranking-posicao bronze">3</span>
+                        <span class="ranking-nick">NiKo</span>
+                        <span class="ranking-valor">1.58</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- DIVISOR -->
+            <div class="ranking-divisor"></div>
+
+            <!-- RANKING KILL -->
+            <div class="ranking-bloco">
+                <div class="ranking-titulo">
+                    <i class="fas fa-skull"></i> Ranking <span>KILL</span>
+                </div>
+                <ul class="ranking-lista">
+                    <li class="ranking-item">
+                        <span class="ranking-posicao ouro">1</span>
+                        <span class="ranking-nick destaque">dev1ce</span>
+                        <span class="ranking-valor">1.247</span>
+                    </li>
+                    <li class="ranking-item">
+                        <span class="ranking-posicao prata">2</span>
+                        <span class="ranking-nick">dupreeh</span>
+                        <span class="ranking-valor">1.189</span>
+                    </li>
+                    <li class="ranking-item">
+                        <span class="ranking-posicao bronze">3</span>
+                        <span class="ranking-nick">GuardiaN</span>
+                        <span class="ranking-valor">1.102</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- DIVISOR -->
+            <div class="ranking-divisor"></div>
+
+            <!-- RANKING WIN -->
+            <div class="ranking-bloco">
+                <div class="ranking-titulo">
+                    <i class="fas fa-crown"></i> Ranking <span>WIN</span>
+                </div>
+                <ul class="ranking-lista">
+                    <li class="ranking-item">
+                        <span class="ranking-posicao ouro">1</span>
+                        <span class="ranking-nick destaque">Olofmeister</span>
+                        <span class="ranking-valor">87%</span>
+                    </li>
+                    <li class="ranking-item">
+                        <span class="ranking-posicao prata">2</span>
+                        <span class="ranking-nick">Get_RiGhT</span>
+                        <span class="ranking-valor">82%</span>
+                    </li>
+                    <li class="ranking-item">
+                        <span class="ranking-posicao bronze">3</span>
+                        <span class="ranking-nick">f0rest</span>
+                        <span class="ranking-valor">79%</span>
+                    </li>
+                </ul>
+            </div>
+
+        </aside>
+
+        <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+        <main class="content-area">
+            <div class="container">
+
+                <!-- ===== BANNER DE PROPAGANDA ===== -->
+                <div class="banner-propaganda">
+                    <span class="banner-badge">PUBLICIDADE</span>
+                    <div class="banner-conteudo">
+                        <div class="banner-titulo">
+                            <i class="fas fa-gem"></i> Patrocínio Disponível!
+                        </div>
+                        <div class="banner-subtitulo">
+                            Quer ver sua marca aqui? Entre em contato e apoie o clã!
+                        </div>
+                        <button class="banner-botao">
+                            <i class="fas fa-handshake"></i> Seja um Patrocinador
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ===== STATUS GRID (CENTRALIZADO) ===== -->
+                <div class="status-grid-wrapper">
+                    <div class="status-grid">
+                        <div class="status-card">
+                            <div class="titulo">Membros no elenco</div>
+                            <div class="valor"><i class="fas fa-users"></i> 10</div>
+                        </div>
+                        <div class="status-card">
+                            <div class="titulo">Vitórias CF</div>
+                            <div class="valor"><i class="fas fa-gamepad"></i> 0</div>
+                        </div>
+                        <div class="status-card">
+                            <div class="titulo">Top 1 Ranking MIX</div>
+                            <div class="valor"><i class="fas fa-trophy"></i> NEY GORDO</div>
+                        </div>
+                        <div class="status-card">
+                            <div class="titulo">Próximo Match</div>
+                            <div class="valor"><i class="fas fa-clock"></i> Indefinido</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== SEÇÃO DE NOTÍCIAS ===== -->
+                <div class="noticias-header">
+                    <h2><i class="fas fa-newspaper"></i> Últimas Notícias</h2>
+                    <div class="noticias-filtros">
+                        <button class="ativo">Todas</button>
+                        <button>Atualizações</button>
+                        <button>Eventos</button>
+                        <button>Comunidade</button>
+                    </div>
+                </div>
+
+                <div class="noticias-grid">
+
+                    <!-- NOTÍCIA 1 -->
+                    <div class="noticia-card">
+                        <div class="noticia-imagem">
+                            <img src="imagens/att.png" alt="Nova atualização CS2">
+                            <span class="noticia-categoria">Atualização</span>
+                            <span class="noticia-data"><i class="far fa-calendar-alt"></i> 15/07/2026</span>
+                        </div>
+                        <div class="noticia-corpo">
+                            <h3 class="noticia-titulo">Nova atualização do CS2 traz melhorias no matchmaking</h3>
+                            <p class="noticia-resumo">A Valve lançou uma nova atualização que promete revolucionar o sistema de matchmaking, com tempos de espera reduzidos e partidas mais equilibradas.</p>
+                            <div class="noticia-rodape">
+                                <div class="noticia-autor">
+                                    <i class="fas fa-user-circle"></i> Por <span>DRK_News</span>
+                                </div>
+                                <div class="noticia-comentarios">
+                                    <i class="fas fa-comment"></i> 24
+                                    <button class="noticia-btn">Ler mais</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NOTÍCIA 2 -->
+                    <div class="noticia-card">
+                        <div class="noticia-imagem">
+                            <img src="imagens/boxman.png" alt="Major CS2 2024">
+                            <span class="noticia-categoria">Evento</span>
+                            <span class="noticia-data"><i class="far fa-calendar-alt"></i> 12/07/2026</span>
+                        </div>
+                        <div class="noticia-corpo">
+                            <h3 class="noticia-titulo">DRK Clan organizará uma rifa de skins entre seus membros</h3>
+                            <p class="noticia-resumo">A organização confirmou que fará sua primeira rifa de skins entre seus membros, fique ligado que em breve teremos novidades. Você pode ser o ganhador!</p>
+                            <div class="noticia-rodape">
+                                <div class="noticia-autor">
+                                    <i class="fas fa-user-circle"></i> Por <span>DRK_Esports</span>
+                                </div>
+                                <div class="noticia-comentarios">
+                                    <i class="fas fa-comment"></i> 47
+                                    <button class="noticia-btn">Ler mais</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NOTÍCIA 3 -->
+                    <div class="noticia-card">
+                        <div class="noticia-imagem">
+                            <img src="imagens/cachemap.png" alt="Novo mapa CS2">
+                            <span class="noticia-categoria">Comunidade</span>
+                            <span class="noticia-data"><i class="far fa-calendar-alt"></i> 08/07/2026</span>
+                        </div>
+                        <div class="noticia-corpo">
+                            <h3 class="noticia-titulo">Novo mapa da comunidade chega ao game oficialmente</h3>
+                            <p class="noticia-resumo">O mapa "Cache" foi aprovado pela Valve e já está disponível no modo competitivo. A comunidade já está testando as novas estratégias.</p>
+                            <div class="noticia-rodape">
+                                <div class="noticia-autor">
+                                    <i class="fas fa-user-circle"></i> Por <span>DRK_Maps</span>
+                                </div>
+                                <div class="noticia-comentarios">
+                                    <i class="fas fa-comment"></i> 18
+                                    <button class="noticia-btn">Ler mais</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- ===== RODAPÉ ===== -->
+    <footer class="footer">
+        <span class="footer-text">© 2026 DRK Clã CS2 </span>
+        <div class="footer-social">
+            <a href="https://discord.gg/aWCF8WXRM" target="_blank" title="Entre no nosso Discord">
+                <i class="fab fa-discord"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT PARA SIDEBAR MOBILE ===== -->
+    <script>
+        const sidebar = document.getElementById('sidebarRanking');
+        const overlay = document.getElementById('sidebarOverlay');
+        const toggleBtn = document.getElementById('sidebarToggle');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('aberto');
+            overlay.classList.toggle('ativo');
+        }
+
+        toggleBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 992) {
+                sidebar.classList.remove('aberto');
+                overlay.classList.remove('ativo');
+            }
+        });
+
+        // Filtro de notícias (simples)
+        document.querySelectorAll('.noticias-filtros button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.noticias-filtros button').forEach(b => b.classList.remove('ativo'));
+                this.classList.add('ativo');
+                // Aqui você pode adicionar lógica de filtro futuramente
+            });
+        });
+    </script>
+
+</body>
+</html>

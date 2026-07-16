@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRK Clan - Inserir Dados</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0b0e14;
+            color: #e0e4ec;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(21, 28, 38, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid #2a3747;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            color: #f7941d;
+        }
+        .header p {
+            color: #8895aa;
+            margin-top: 5px;
+        }
+        .step {
+            background: #11171f;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f7941d;
+        }
+        .step h3 {
+            color: #f7941d;
+            margin-bottom: 10px;
+        }
+        .step p {
+            color: #b0b9c9;
+            font-size: 0.9rem;
+        }
+        .step code {
+            background: #1f2a36;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #f7941d;
+            font-size: 0.85rem;
+        }
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            background: #0b0e14;
+            color: #e0e4ec;
+            border: 1px solid #2a3747;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            resize: vertical;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #f7941d;
+        }
+        .btn {
+            background: #f7941d;
+            color: #0b0e14;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .btn:hover {
+            background: #ffa82e;
+            transform: scale(1.02);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        #status {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        #status.success {
+            display: block;
+            background: #1a472a;
+            color: #8bc34a;
+            border: 1px solid #2e7d32;
+        }
+        #status.error {
+            display: block;
+            background: #4a1a1a;
+            color: #ef5350;
+            border: 1px solid #c62828;
+        }
+        #status.loading {
+            display: block;
+            background: #1f2a36;
+            color: #b0b9c9;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #2a3747;
+            border-top: 3px solid #f7941d;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .dados-preview {
+            display: none;
+            margin-top: 20px;
+            background: #11171f;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .dados-preview h4 {
+            color: #f7941d;
+            margin-bottom: 15px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .item {
+            background: #1f2a36;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .item .label {
+            color: #8895aa;
+            font-size: 0.8rem;
+        }
+        .item .value {
+            font-weight: 600;
+            color: #f7941d;
+        }
+        .item .value.drk { color: #4fc3f7; }
+        .item .value.inimigo { color: #ef5350; }
+        .connection-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .connection-status.online {
+            background: #1a472a;
+            color: #8bc34a;
+        }
+        .connection-status.offline {
+            background: #4a1a1a;
+            color: #ef5350;
+        }
+        .firebase-status {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #11171f;
+            border-radius: 8px;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-database"></i> DRK Clan</h1>
+            <p>Cole o JSON extraído do print para salvar no banco</p>
+        </div>
+
+        <div class="firebase-status">
+            <span id="statusFirebase">
+                <i class="fas fa-circle-notch fa-spin"></i> Conectando ao Firebase...
+            </span>
+        </div>
+
+        <div class="step">
+            <h3>📋 Passo 1: Execute o Python</h3>
+            <p>Execute o script <code>extrair_print_easyocr.py</code> e copie o JSON gerado.</p>
+            <p style="margin-top: 5px; color: #8895aa;">
+                <i class="fas fa-terminal"></i> python extrair_print_easyocr.py
+            </p>
+        </div>
+
+        <div class="step">
+            <h3>📝 Passo 2: Cole o JSON aqui</h3>
+            <textarea id="jsonInput" placeholder='Cole o JSON aqui... Exemplo: {"timestamp": "2024-01-01", "resultado": "Vitória", ...}'></textarea>
+        </div>
+
+        <button class="btn" id="btnSalvar">
+            <i class="fas fa-save"></i> Salvar no Firebase
+        </button>
+
+        <div id="status"></div>
+        <div class="dados-preview" id="dadosPreview">
+            <h4><i class="fas fa-check-circle"></i> Dados Extraídos</h4>
+            <div class="grid" id="dadosGrid"></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <script>
+        // ===== CONFIGURAÇÃO DO FIREBASE =====
+        // COLE AQUI O firebaseConfig QUE VOCÊ COPIU DO CONSOLE
+        const firebaseConfig = {
+            apiKey: "AIzaSyD3-7-VNw4uJYU9mmDAZGmSqVeyTZBl-Qw",
+            authDomain: "drk-clan-stats.firebaseapp.com",
+            databaseURL: "https://drk-clan-stats-default-rtdb.firebaseio.com",
+            projectId: "drk-clan-stats",
+            storageBucket: "drk-clan-stats.firebasestorage.app",
+            messagingSenderId: "103156550783",
+            appId: "1:103156550783:web:d2f531f329aba1a063834a"
+        };
+
+        // Inicializar Firebase
+        let database;
+        let firebaseInicializado = false;
+
+        try {
+            firebase.initializeApp(firebaseConfig);
+            database = firebase.database();
+            firebaseInicializado = true;
+            document.getElementById('statusFirebase').innerHTML = 
+                '<span class="connection-status online">✅ Firebase conectado</span>';
+            console.log("✅ Firebase conectado com sucesso!");
+        } catch (error) {
+            console.error("❌ Erro ao conectar Firebase:", error);
+            document.getElementById('statusFirebase').innerHTML = 
+                '<span class="connection-status offline">❌ Erro ao conectar: ' + error.message + '</span>';
+        }
+
+        const jsonInput = document.getElementById('jsonInput');
+        const btnSalvar = document.getElementById('btnSalvar');
+        const statusDiv = document.getElementById('status');
+        const dadosPreview = document.getElementById('dadosPreview');
+        const dadosGrid = document.getElementById('dadosGrid');
+
+        btnSalvar.addEventListener('click', async () => {
+            if (!firebaseInicializado) {
+                showStatus('error', '❌ Firebase não está conectado! Verifique a configuração.');
+                return;
+            }
+
+            const texto = jsonInput.value.trim();
+            
+            if (!texto) {
+                showStatus('error', '❌ Por favor, cole um JSON válido.');
+                return;
+            }
+
+            // Validar JSON
+            let dados;
+            try {
+                dados = JSON.parse(texto);
+            } catch (e) {
+                showStatus('error', '❌ JSON inválido! Verifique o formato.');
+                return;
+            }
+
+            // Validar dados mínimos
+            if (!dados.jogadores || dados.jogadores.length === 0) {
+                showStatus('error', '❌ JSON não contém jogadores.');
+                return;
+            }
+
+            // Mostrar preview
+            mostrarPreview(dados);
+
+            // Desabilitar botão
+            btnSalvar.disabled = true;
+            btnSalvar.innerHTML = '<span class="loading-spinner"></span> Salvando...';
+            showStatus('loading', '⏳ Salvando dados no Firebase...');
+
+            try {
+                // Salvar partida
+                const partidasRef = database.ref('partidas');
+                const novaPartida = await partidasRef.push(dados);
+                const partidaId = novaPartida.key;
+
+                // Atualizar rankings de cada jogador DRK
+                const jogadoresDRK = dados.jogadores_drk || [];
+                let salvos = 0;
+                
+                for (const jogador of jogadoresDRK) {
+                    await atualizarRanking(jogador, dados.resultado);
+                    salvos++;
+                }
+
+                showStatus('success', `✅ Dados salvos com sucesso! ID: ${partidaId} | ${salvos} jogadores atualizados`);
+                jsonInput.value = '';
+                btnSalvar.disabled = false;
+                btnSalvar.innerHTML = '<i class="fas fa-save"></i> Salvar no Firebase';
+                dadosPreview.style.display = 'none';
+
+            } catch (error) {
+                showStatus('error', '❌ Erro ao salvar: ' + error.message);
+                btnSalvar.disabled = false;
+                btnSalvar.innerHTML = '<i class="fas fa-save"></i> Salvar no Firebase';
+            }
+        });
+
+        function atualizarRanking(jogador, resultado) {
+            return new Promise((resolve, reject) => {
+                const nick = jogador.nick;
+                const ref = database.ref('rankings/' + nick);
+                
+                ref.once('value', (snapshot) => {
+                    let ranking = snapshot.val() || {};
+                    
+                    // Inicializar se não existir
+                    if (Object.keys(ranking).length === 0) {
+                        ranking = {
+                            nick: nick,
+                            total_partidas: 0,
+                            total_kills: 0,
+                            total_deaths: 0,
+                            total_assists: 0,
+                            total_adr: 0,
+                            total_vitorias: 0,
+                            ultima_partida: new Date().toISOString()
+                        };
+                    }
+                    
+                    // Atualizar estatísticas
+                    ranking.total_partidas++;
+                    ranking.total_kills += jogador.kills;
+                    ranking.total_deaths += jogador.deaths;
+                    ranking.total_assists += jogador.assists;
+                    ranking.total_adr += jogador.adr;
+                    
+                    if (resultado === 'Vitória') {
+                        ranking.total_vitorias++;
+                    }
+                    
+                    // Calcular médias
+                    ranking.kdr_medio = ranking.total_deaths > 0 ? 
+                        parseFloat((ranking.total_kills / ranking.total_deaths).toFixed(2)) : 
+                        ranking.total_kills;
+                    ranking.adr_medio = parseFloat((ranking.total_adr / ranking.total_partidas).toFixed(1));
+                    ranking.win_rate = parseFloat(((ranking.total_vitorias / ranking.total_partidas) * 100).toFixed(1));
+                    ranking.ultima_partida = new Date().toISOString();
+                    
+                    ref.set(ranking)
+                        .then(() => resolve())
+                        .catch((error) => reject(error));
+                });
+            });
+        }
+
+        function mostrarPreview(dados) {
+            dadosPreview.style.display = 'block';
+            
+            let html = '';
+            html += `<div class="item"><span class="label">Resultado</span><span class="value">${dados.resultado || 'N/A'}</span></div>`;
+            html += `<div class="item"><span class="label">Data/Hora</span><span class="value">${dados.data_hora || 'N/A'}</span></div>`;
+            html += `<div class="item"><span class="label">Jogadores DRK</span><span class="value drk">${dados.jogadores_drk ? dados.jogadores_drk.length : 0}</span></div>`;
+            html += `<div class="item"><span class="label">Jogadores Inimigos</span><span class="value inimigo">${dados.jogadores_inimigos ? dados.jogadores_inimigos.length : 0}</span></div>`;
+            html += `<div class="item"><span class="label">Kills DRK</span><span class="value drk">${dados.kills_drk || 0}</span></div>`;
+            html += `<div class="item"><span class="label">Kills Inimigos</span><span class="value inimigo">${dados.kills_inimigos || 0}</span></div>`;
+            
+            if (dados.jogadores_drk && dados.jogadores_drk.length > 0) {
+                const nicks = dados.jogadores_drk.map(j => j.nick).join(', ');
+                html += `<div class="item" style="grid-column: 1 / -1;">
+                    <span class="label">Jogadores DRK</span>
+                    <span class="value drk">${nicks}</span>
+                </div>`;
+            }
+            
+            dadosGrid.innerHTML = html;
+        }
+
+        function showStatus(tipo, mensagem) {
+            statusDiv.className = tipo;
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = mensagem;
+        }
+
+        // Exemplo de JSON para teste
+        const exemploJSON = {
+            "timestamp": "2026-07-16T18:57:05.762778",
+            "data_hora": "16/07/2026 18:57",
+            "times": [],
+            "jogadores": [
+                {
+                    "nick": "DRK FELPS",
+                    "nivel": 8,
+                    "kills": 28,
+                    "assists": 9,
+                    "deaths": 22,
+                    "diff": 6,
+                    "adr": 107.21,
+                    "kdr": 1.27,
+                    "kast": 76
+                },
+                {
+                    "nick": "DRK O PROBLEMA DA DIVISAO",
+                    "nivel": 13,
+                    "kills": 26,
+                    "assists": 6,
+                    "deaths": 22,
+                    "diff": 4,
+                    "adr": 90.55,
+                    "kdr": 1.18,
+                    "kast": 72
+                },
+                {
+                    "nick": "DRK - maRceLino",
+                    "nivel": 7,
+                    "kills": 14,
+                    "assists": 7,
+                    "deaths": 24,
+                    "diff": -10,
+                    "adr": 72.59,
+                    "kdr": 0.58,
+                    "kast": 55
+                },
+                {
+                    "nick": "DRK - AGOSTINHO CALLRARA",
+                    "nivel": 7,
+                    "kills": 19,
+                    "assists": 9,
+                    "deaths": 21,
+                    "diff": -2,
+                    "adr": 63.0,
+                    "kdr": 0.9,
+                    "kast": 59
+                },
+                {
+                    "nick": "Qrcodematador",
+                    "nivel": 2,
+                    "kills": 12,
+                    "assists": 3,
+                    "deaths": 24,
+                    "diff": -12,
+                    "adr": 44.83,
+                    "kdr": 0.5,
+                    "kast": 45
+                }
+            ],
+            "jogadores_drk": [
+                {
+                    "nick": "DRK FELPS",
+                    "nivel": 8,
+                    "kills": 28,
+                    "assists": 9,
+                    "deaths": 22,
+                    "diff": 6,
+                    "adr": 107.21,
+                    "kdr": 1.27,
+                    "kast": 76
+                },
+                {
+                    "nick": "DRK O PROBLEMA DA DIVISAO",
+                    "nivel": 13,
+                    "kills": 26,
+                    "assists": 6,
+                    "deaths": 22,
+                    "diff": 4,
+                    "adr": 90.55,
+                    "kdr": 1.18,
+                    "kast": 72
+                },
+                {
+                    "nick": "DRK - maRceLino",
+                    "nivel": 7,
+                    "kills": 14,
+                    "assists": 7,
+                    "deaths": 24,
+                    "diff": -10,
+                    "adr": 72.59,
+                    "kdr": 0.58,
+                    "kast": 55
+                },
+                {
+                    "nick": "DRK - AGOSTINHO CALLRARA",
+                    "nivel": 7,
+                    "kills": 19,
+                    "assists": 9,
+                    "deaths": 21,
+                    "diff": -2,
+                    "adr": 63.0,
+                    "kdr": 0.9,
+                    "kast": 59
+                }
+            ],
+            "jogadores_inimigos": [
+                {
+                    "nick": "Qrcodematador",
+                    "nivel": 2,
+                    "kills": 12,
+                    "assists": 3,
+                    "deaths": 24,
+                    "diff": -12,
+                    "adr": 44.83,
+                    "kdr": 0.5,
+                    "kast": 45
+                }
+            ],
+            "resultado": "Vitória",
+            "kills_drk": 87,
+            "kills_inimigos": 12
+        };
+
+        // Carregar exemplo para teste (opcional)
+        // jsonInput.value = JSON.stringify(exemploJSON, null, 2);
+    </script>
+</body>
+</html>
