@@ -236,18 +236,16 @@
 
     <script>
         // ===== CONFIGURAÇÃO DO FIREBASE =====
-        // COLE AQUI O firebaseConfig QUE VOCÊ COPIU DO CONSOLE
         const firebaseConfig = {
-            apiKey: "AIzaSyD3-7-VNw4uJYU9mmDAZGmSqVeyTZBl-Qw",
-            authDomain: "drk-clan-stats.firebaseapp.com",
-            databaseURL: "https://drk-clan-stats-default-rtdb.firebaseio.com",
-            projectId: "drk-clan-stats",
-            storageBucket: "drk-clan-stats.firebasestorage.app",
-            messagingSenderId: "103156550783",
-            appId: "1:103156550783:web:d2f531f329aba1a063834a"
+            apiKey: "SUA_API_KEY_AQUI",
+            authDomain: "SEU_PROJETO.firebaseapp.com",
+            databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
+            projectId: "SEU_PROJETO",
+            storageBucket: "SEU_PROJETO.appspot.com",
+            messagingSenderId: "SEU_SENDER_ID",
+            appId: "SEU_APP_ID"
         };
 
-        // Inicializar Firebase
         let database;
         let firebaseInicializado = false;
 
@@ -270,6 +268,7 @@
         const dadosPreview = document.getElementById('dadosPreview');
         const dadosGrid = document.getElementById('dadosGrid');
 
+        // ===== SALVAR TODOS OS JOGADORES =====
         btnSalvar.addEventListener('click', async () => {
             if (!firebaseInicializado) {
                 showStatus('error', '❌ Firebase não está conectado! Verifique a configuração.');
@@ -283,7 +282,6 @@
                 return;
             }
 
-            // Validar JSON
             let dados;
             try {
                 dados = JSON.parse(texto);
@@ -292,16 +290,13 @@
                 return;
             }
 
-            // Validar dados mínimos
             if (!dados.jogadores || dados.jogadores.length === 0) {
                 showStatus('error', '❌ JSON não contém jogadores.');
                 return;
             }
 
-            // Mostrar preview
             mostrarPreview(dados);
 
-            // Desabilitar botão
             btnSalvar.disabled = true;
             btnSalvar.innerHTML = '<span class="loading-spinner"></span> Salvando...';
             showStatus('loading', '⏳ Salvando dados no Firebase...');
@@ -312,11 +307,11 @@
                 const novaPartida = await partidasRef.push(dados);
                 const partidaId = novaPartida.key;
 
-                // Atualizar rankings de cada jogador DRK
-                const jogadoresDRK = dados.jogadores_drk || [];
+                // 🔥 ATUALIZAR RANKING DE TODOS OS JOGADORES (DRK + INIMIGOS)
+                const todosJogadores = dados.jogadores || [];
                 let salvos = 0;
                 
-                for (const jogador of jogadoresDRK) {
+                for (const jogador of todosJogadores) {
                     await atualizarRanking(jogador, dados.resultado);
                     salvos++;
                 }
@@ -342,7 +337,6 @@
                 ref.once('value', (snapshot) => {
                     let ranking = snapshot.val() || {};
                     
-                    // Inicializar se não existir
                     if (Object.keys(ranking).length === 0) {
                         ranking = {
                             nick: nick,
@@ -356,18 +350,16 @@
                         };
                     }
                     
-                    // Atualizar estatísticas
                     ranking.total_partidas++;
-                    ranking.total_kills += jogador.kills;
-                    ranking.total_deaths += jogador.deaths;
-                    ranking.total_assists += jogador.assists;
-                    ranking.total_adr += jogador.adr;
+                    ranking.total_kills += jogador.kills || 0;
+                    ranking.total_deaths += jogador.deaths || 0;
+                    ranking.total_assists += jogador.assists || 0;
+                    ranking.total_adr += jogador.adr || 0;
                     
                     if (resultado === 'Vitória') {
                         ranking.total_vitorias++;
                     }
                     
-                    // Calcular médias
                     ranking.kdr_medio = ranking.total_deaths > 0 ? 
                         parseFloat((ranking.total_kills / ranking.total_deaths).toFixed(2)) : 
                         ranking.total_kills;
@@ -388,16 +380,17 @@
             let html = '';
             html += `<div class="item"><span class="label">Resultado</span><span class="value">${dados.resultado || 'N/A'}</span></div>`;
             html += `<div class="item"><span class="label">Data/Hora</span><span class="value">${dados.data_hora || 'N/A'}</span></div>`;
+            html += `<div class="item"><span class="label">Total Jogadores</span><span class="value">${dados.jogadores ? dados.jogadores.length : 0}</span></div>`;
             html += `<div class="item"><span class="label">Jogadores DRK</span><span class="value drk">${dados.jogadores_drk ? dados.jogadores_drk.length : 0}</span></div>`;
             html += `<div class="item"><span class="label">Jogadores Inimigos</span><span class="value inimigo">${dados.jogadores_inimigos ? dados.jogadores_inimigos.length : 0}</span></div>`;
             html += `<div class="item"><span class="label">Kills DRK</span><span class="value drk">${dados.kills_drk || 0}</span></div>`;
             html += `<div class="item"><span class="label">Kills Inimigos</span><span class="value inimigo">${dados.kills_inimigos || 0}</span></div>`;
             
-            if (dados.jogadores_drk && dados.jogadores_drk.length > 0) {
-                const nicks = dados.jogadores_drk.map(j => j.nick).join(', ');
+            if (dados.jogadores && dados.jogadores.length > 0) {
+                const nicks = dados.jogadores.map(j => j.nick).join(', ');
                 html += `<div class="item" style="grid-column: 1 / -1;">
-                    <span class="label">Jogadores DRK</span>
-                    <span class="value drk">${nicks}</span>
+                    <span class="label">Todos os Jogadores</span>
+                    <span class="value">${nicks}</span>
                 </div>`;
             }
             
@@ -409,135 +402,6 @@
             statusDiv.style.display = 'block';
             statusDiv.innerHTML = mensagem;
         }
-
-        // Exemplo de JSON para teste
-        const exemploJSON = {
-            "timestamp": "2026-07-16T18:57:05.762778",
-            "data_hora": "16/07/2026 18:57",
-            "times": [],
-            "jogadores": [
-                {
-                    "nick": "DRK FELPS",
-                    "nivel": 8,
-                    "kills": 28,
-                    "assists": 9,
-                    "deaths": 22,
-                    "diff": 6,
-                    "adr": 107.21,
-                    "kdr": 1.27,
-                    "kast": 76
-                },
-                {
-                    "nick": "DRK O PROBLEMA DA DIVISAO",
-                    "nivel": 13,
-                    "kills": 26,
-                    "assists": 6,
-                    "deaths": 22,
-                    "diff": 4,
-                    "adr": 90.55,
-                    "kdr": 1.18,
-                    "kast": 72
-                },
-                {
-                    "nick": "DRK - maRceLino",
-                    "nivel": 7,
-                    "kills": 14,
-                    "assists": 7,
-                    "deaths": 24,
-                    "diff": -10,
-                    "adr": 72.59,
-                    "kdr": 0.58,
-                    "kast": 55
-                },
-                {
-                    "nick": "DRK - AGOSTINHO CALLRARA",
-                    "nivel": 7,
-                    "kills": 19,
-                    "assists": 9,
-                    "deaths": 21,
-                    "diff": -2,
-                    "adr": 63.0,
-                    "kdr": 0.9,
-                    "kast": 59
-                },
-                {
-                    "nick": "Qrcodematador",
-                    "nivel": 2,
-                    "kills": 12,
-                    "assists": 3,
-                    "deaths": 24,
-                    "diff": -12,
-                    "adr": 44.83,
-                    "kdr": 0.5,
-                    "kast": 45
-                }
-            ],
-            "jogadores_drk": [
-                {
-                    "nick": "DRK FELPS",
-                    "nivel": 8,
-                    "kills": 28,
-                    "assists": 9,
-                    "deaths": 22,
-                    "diff": 6,
-                    "adr": 107.21,
-                    "kdr": 1.27,
-                    "kast": 76
-                },
-                {
-                    "nick": "DRK O PROBLEMA DA DIVISAO",
-                    "nivel": 13,
-                    "kills": 26,
-                    "assists": 6,
-                    "deaths": 22,
-                    "diff": 4,
-                    "adr": 90.55,
-                    "kdr": 1.18,
-                    "kast": 72
-                },
-                {
-                    "nick": "DRK - maRceLino",
-                    "nivel": 7,
-                    "kills": 14,
-                    "assists": 7,
-                    "deaths": 24,
-                    "diff": -10,
-                    "adr": 72.59,
-                    "kdr": 0.58,
-                    "kast": 55
-                },
-                {
-                    "nick": "DRK - AGOSTINHO CALLRARA",
-                    "nivel": 7,
-                    "kills": 19,
-                    "assists": 9,
-                    "deaths": 21,
-                    "diff": -2,
-                    "adr": 63.0,
-                    "kdr": 0.9,
-                    "kast": 59
-                }
-            ],
-            "jogadores_inimigos": [
-                {
-                    "nick": "Qrcodematador",
-                    "nivel": 2,
-                    "kills": 12,
-                    "assists": 3,
-                    "deaths": 24,
-                    "diff": -12,
-                    "adr": 44.83,
-                    "kdr": 0.5,
-                    "kast": 45
-                }
-            ],
-            "resultado": "Vitória",
-            "kills_drk": 87,
-            "kills_inimigos": 12
-        };
-
-        // Carregar exemplo para teste (opcional)
-        // jsonInput.value = JSON.stringify(exemploJSON, null, 2);
     </script>
 </body>
 </html>
