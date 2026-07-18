@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRK Clan - Sorteios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== RESET E ESTILOS GERAIS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0e14;
+            color: #e0e4ec;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== MENU SUPERIOR ===== */
+        .navbar {
+            background: #151c26;
+            border-bottom: 2px solid #f7941d;
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar .logo i {
+            color: #f7941d;
+            font-size: 2rem;
+        }
+
+        .navbar .logo span {
+            color: #f7941d;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .nav-links li a {
+            color: #b0b9c9;
+            transition: 0.2s;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links li a:hover {
+            color: #fff;
+            border-bottom-color: #f7941d;
+        }
+
+        .nav-links li a.ativo {
+            color: #fff;
+            border-bottom-color: #f7941d;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-area .perfil2 img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* ===== FRASE DESTAQUE ===== */
+        .frase-destaque {
+            background: linear-gradient(90deg, #1f2a36, #151c26);
+            padding: 0.8rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #2a3747;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #e0e4ec;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .frase-destaque i {
+            color: #f7941d;
+            margin: 0 8px;
+        }
+
+        .frase-destaque .destaque-texto {
+            color: #f7941d;
+            font-weight: 700;
+        }
+
+        /* ===== CONTEÚDO PRINCIPAL ===== */
+        .content-area {
+            flex: 1;
+            padding: 2rem 2rem 0 2rem;
+            min-height: calc(100vh - 70px);
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .content-area::before {
+            content: '';
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: 338px;
+            background-image: url('imagens/bg.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== HEADER DA PÁGINA ===== */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f7941d;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .page-header h1 i {
+            color: #f7941d;
+            margin-right: 12px;
+        }
+
+        .page-header .voltar {
+            background: #1f2a36;
+            color: #b0b9c9;
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border: 1px solid #2a3747;
+        }
+
+        .page-header .voltar:hover {
+            background: #f7941d;
+            color: #0b0e14;
+            border-color: #f7941d;
+            transform: scale(1.05);
+        }
+
+        /* ===== SORTEIO ===== */
+        .sorteio-wrapper {
+            background: rgba(21, 28, 38, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            border: 1px solid #2a3747;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .sorteio-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(247, 148, 29, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* ===== EFEITO DE RELÍQUIA NA IMAGEM ===== */
+        .reliquia-container {
+            position: relative;
+            display: inline-block;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* Brilho externo */
+        .reliquia-container .glow-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            border-radius: 50%;
+            border: 2px solid rgba(247, 148, 29, 0.15);
+            animation: ringPulse 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .reliquia-container .glow-ring:nth-child(2) {
+            width: 140%;
+            height: 140%;
+            animation-delay: 0.5s;
+            border-color: rgba(247, 148, 29, 0.08);
+        }
+
+        .reliquia-container .glow-ring:nth-child(3) {
+            width: 160%;
+            height: 160%;
+            animation-delay: 1s;
+            border-color: rgba(247, 148, 29, 0.04);
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.5; }
+        }
+
+        /* Efeito de brilho na imagem */
+        .reliquia-container .brilho {
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+            border-radius: 50%;
+            animation: brilhoMove 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes brilhoMove {
+            0% { transform: translate(-10%, -10%) rotate(0deg); opacity: 0.5; }
+            100% { transform: translate(10%, 10%) rotate(360deg); opacity: 1; }
+        }
+
+        /* Partículas flutuantes */
+        .reliquia-container .particulas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        .reliquia-container .particulas span {
+            position: absolute;
+            display: block;
+            width: 4px;
+            height: 4px;
+            background: #f7941d;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particulaFloat 3s ease-in-out infinite;
+        }
+
+        .reliquia-container .particulas span:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+            width: 3px;
+            height: 3px;
+        }
+        .reliquia-container .particulas span:nth-child(2) {
+            top: 5%;
+            right: 15%;
+            animation-delay: 0.8s;
+            width: 5px;
+            height: 5px;
+        }
+        .reliquia-container .particulas span:nth-child(3) {
+            bottom: 20%;
+            left: 10%;
+            animation-delay: 1.6s;
+            width: 4px;
+            height: 4px;
+        }
+        .reliquia-container .particulas span:nth-child(4) {
+            bottom: 10%;
+            right: 8%;
+            animation-delay: 2.4s;
+            width: 6px;
+            height: 6px;
+        }
+        .reliquia-container .particulas span:nth-child(5) {
+            top: 40%;
+            left: 0%;
+            animation-delay: 0.4s;
+            width: 3px;
+            height: 3px;
+        }
+        .reliquia-container .particulas span:nth-child(6) {
+            top: 30%;
+            right: 0%;
+            animation-delay: 1.2s;
+            width: 4px;
+            height: 4px;
+        }
+        .reliquia-container .particulas span:nth-child(7) {
+            bottom: 40%;
+            left: 2%;
+            animation-delay: 2s;
+            width: 5px;
+            height: 5px;
+        }
+        .reliquia-container .particulas span:nth-child(8) {
+            top: 60%;
+            right: 2%;
+            animation-delay: 2.8s;
+            width: 3px;
+            height: 3px;
+        }
+
+        @keyframes particulaFloat {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-60px) scale(0); opacity: 0; }
+        }
+
+        /* Imagem da relíquia */
+        .reliquia-container .reliquia-img {
+            position: relative;
+            z-index: 2;
+            width: 400px;
+            max-width: 90%;
+            height: auto;
+            border-radius: 16px;
+            display: block;
+            margin: 0 auto;
+            filter: drop-shadow(0 0 40px rgba(247, 148, 29, 0.2));
+            transition: all 0.5s ease;
+            animation: flutuar 4s ease-in-out infinite;
+        }
+
+        .reliquia-container .reliquia-img:hover {
+            transform: scale(1.02);
+            filter: drop-shadow(0 0 60px rgba(247, 148, 29, 0.4));
+        }
+
+        @keyframes flutuar {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        /* ===== TEXTO EXPLICATIVO ===== */
+        .sorteio-info {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .sorteio-info .badge-em-breve {
+            display: inline-block;
+            background: linear-gradient(135deg, #f7941d, #d47a0e);
+            color: #0b0e14;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 20px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .sorteio-info h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .sorteio-info h2 i {
+            color: #f7941d;
+        }
+
+        .sorteio-info p {
+            color: #b0b9c9;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .sorteio-info p i {
+            color: #f7941d;
+            margin: 0 4px;
+        }
+
+        .sorteio-info .destaque-premio {
+            color: #f7941d;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* ===== BOTÃO DE NOTIFICAÇÃO ===== */
+        .btn-notificar {
+            background: transparent;
+            border: 2px solid #f7941d;
+            color: #f7941d;
+            padding: 12px 40px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-notificar:hover {
+            background: #f7941d;
+            color: #0b0e14;
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(247, 148, 29, 0.3);
+        }
+
+        .btn-notificar i {
+            font-size: 1rem;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #44505f;
+            font-size: 0.8rem;
+            border-top: 1px solid #1f2a36;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 2;
+            background: rgba(11, 14, 20, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+        }
+
+        .footer .footer-text {
+            flex: 1;
+            text-align: center;
+        }
+
+        .footer .footer-social {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer .footer-social a {
+            color: #b0b9c9;
+            font-size: 1.4rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer .footer-social a:hover {
+            color: #f7941d;
+            transform: scale(1.1);
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 992px) {
+            .content-area {
+                padding: 1rem;
+            }
+            .content-area::before {
+                width: 300px;
+                height: 169px;
+                opacity: 0.08;
+            }
+            .sorteio-wrapper {
+                padding: 2rem 1rem;
+            }
+            .reliquia-container .reliquia-img {
+                width: 300px;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                height: auto;
+                padding: 1rem;
+                gap: 10px;
+                flex-direction: column;
+            }
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .user-area {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .frase-destaque {
+                font-size: 0.85rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .reliquia-container .reliquia-img {
+                width: 250px;
+            }
+
+            .sorteio-info h2 {
+                font-size: 1.4rem;
+            }
+            .sorteio-info p {
+                font-size: 0.9rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .btn-notificar {
+                padding: 10px 30px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .reliquia-container .reliquia-img {
+                width: 200px;
+            }
+            .sorteio-wrapper {
+                padding: 1.5rem 1rem;
+            }
+            .sorteio-info h2 {
+                font-size: 1.2rem;
+            }
+            .sorteio-info p {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #11171f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f7941d;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== MENU SUPERIOR ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="imagens/logo.png" alt="DRK Clan" class="logo" style="height:60px;width:auto;">
+            </a>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="elenco.html">Elenco</a></li>
+            <li><a href="rankinggeral.html">Ranking</a></li>
+            <li><a href="halldafama.html">Hall da fama</a></li>
+            <li><a href="highlights.html">Highlights</a></li>
+            <li><a href="sorteios.html" class="ativo">Sorteios</a></li>
+        </ul>
+
+        <div class="user-area">
+            <div class="perfil2">
+                <img src="imagens/cs2.png" alt="Gamers Club" style="height:40px;width:auto;">
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== FRASE DESTAQUE ===== -->
+    <div class="frase-destaque">
+        <i class="fas fa-quote-left"></i>
+        Sorteios e rifas exclusivas para os membros do <span class="destaque-texto">clan DRK</span>!
+        Fique ligado nas premiações.
+        <i class="fas fa-quote-right"></i>
+    </div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="content-area">
+        <div class="container">
+
+            <!-- ===== HEADER ===== -->
+            <div class="page-header">
+                <h1><i class="fas fa-gift"></i> Sorteios</h1>
+                <a href="index.html" class="voltar">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Início
+                </a>
+            </div>
+
+            <!-- ===== SORTEIO ===== -->
+            <div class="sorteio-wrapper">
+
+                <!-- ===== RELÍQUIA ===== -->
+                <div class="reliquia-container">
+                    <!-- Anéis de brilho -->
+                    <div class="glow-ring"></div>
+                    <div class="glow-ring"></div>
+                    <div class="glow-ring"></div>
+
+                    <!-- Brilho na imagem -->
+                    <div class="brilho"></div>
+
+                    <!-- Partículas flutuantes -->
+                    <div class="particulas">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <!-- Imagem da premiação -->
+                    <img src="imagens/rifa.png" alt="Prêmio da Rifa" class="reliquia-img">
+                </div>
+
+                <!-- ===== INFORMAÇÕES ===== -->
+                <div class="sorteio-info">
+                    <span class="badge-em-breve"><i class="fas fa-clock"></i> Em breve</span>
+                    <h2><i class="fas fa-ticket-alt"></i> Rifa DRK Clan</h2>
+                    <p>
+                        Em breve teremos uma <strong>rifa exclusiva</strong> para os membros do clã!
+                        A premiação será a <span class="destaque-premio">Faca Bowie (★) | Sabedoria</span> que você vê acima.
+                        <br><br>
+                        <i class="fas fa-info-circle"></i>
+                        Fique ligado no <strong>Discord</strong> e nas redes sociais para mais informações
+                        sobre como participar e garantir sua chance de ganhar!
+                        <br><br>
+                        <i class="fas fa-gavel"></i>
+                        <strong>Regras:</strong> A rifa será realizada entre os membros ativos do clan DRK.
+                        Mais detalhes em breve.
+                    </p>
+
+                    <!-- Botão de notificação -->
+                    <button class="btn-notificar" onclick="alert('📢 Você será notificado quando a rifa começar!')">
+                        <i class="fas fa-bell"></i> Me avise quando começar
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== RODAPÉ ===== -->
+    <footer class="footer">
+        <span class="footer-text">© 2026 DRK Clã CS2</span>
+        <div class="footer-social">
+            <a href="https://discord.gg/aWCF8WXRM" target="_blank" title="Entre no nosso Discord">
+                <i class="fab fa-discord"></i>
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>

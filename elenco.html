@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRK Clan - Elenco</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== RESET E ESTILOS GERAIS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0e14;
+            color: #e0e4ec;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== MENU SUPERIOR ===== */
+        .navbar {
+            background: #151c26;
+            border-bottom: 2px solid #f7941d;
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar .logo i {
+            color: #f7941d;
+            font-size: 2rem;
+        }
+
+        .navbar .logo span {
+            color: #f7941d;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .nav-links li a {
+            color: #b0b9c9;
+            transition: 0.2s;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links li a:hover {
+            color: #fff;
+            border-bottom-color: #f7941d;
+        }
+
+        .nav-links li a.ativo {
+            color: #fff;
+            border-bottom-color: #f7941d;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-area .perfil2 img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* ===== FRASE DESTAQUE ===== */
+        .frase-destaque {
+            background: linear-gradient(90deg, #1f2a36, #151c26);
+            padding: 0.8rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #2a3747;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #e0e4ec;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .frase-destaque i {
+            color: #f7941d;
+            margin: 0 8px;
+        }
+
+        .frase-destaque .destaque-texto {
+            color: #f7941d;
+            font-weight: 700;
+        }
+
+        /* ===== CONTEÚDO PRINCIPAL ===== */
+        .content-area {
+            flex: 1;
+            padding: 2rem 2rem 0 2rem;
+            min-height: calc(100vh - 70px);
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .content-area::before {
+            content: '';
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: 338px;
+            background-image: url('imagens/bg.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== HEADER DA PÁGINA ===== */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f7941d;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .page-header h1 i {
+            color: #f7941d;
+            margin-right: 12px;
+        }
+
+        .page-header .voltar {
+            background: #1f2a36;
+            color: #b0b9c9;
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border: 1px solid #2a3747;
+        }
+
+        .page-header .voltar:hover {
+            background: #f7941d;
+            color: #0b0e14;
+            border-color: #f7941d;
+            transform: scale(1.05);
+        }
+
+        /* ===== STATS DO ELENCO ===== */
+        .elenco-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 2.5rem;
+        }
+
+        .elenco-stats .stat-card {
+            background: rgba(21, 28, 38, 0.85);
+            backdrop-filter: blur(4px);
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #2a3747;
+            transition: 0.3s;
+        }
+
+        .elenco-stats .stat-card:hover {
+            border-color: #f7941d;
+            transform: translateY(-3px);
+        }
+
+        .elenco-stats .stat-card .numero {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f7941d;
+        }
+
+        .elenco-stats .stat-card .label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #8895aa;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* ===== DESCRIÇÃO DO ELENCO ===== */
+        .elenco-desc {
+            background: rgba(21, 28, 38, 0.85);
+            backdrop-filter: blur(4px);
+            padding: 20px 30px;
+            border-radius: 12px;
+            border: 1px solid #2a3747;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .elenco-desc p {
+            color: #b0b9c9;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .elenco-desc p i {
+            color: #f7941d;
+            margin: 0 6px;
+        }
+
+        .elenco-desc .destaque {
+            color: #f7941d;
+            font-weight: 700;
+        }
+
+        /* ===== CARDS DOS JOGADORES ===== */
+        .membros-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .membro-card {
+            background: rgba(21, 28, 38, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #2a3747;
+            display: flex;
+            gap: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .membro-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(247, 148, 29, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .membro-card:hover {
+            border-color: #f7941d;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 40px rgba(247, 148, 29, 0.08);
+        }
+
+        /* ===== FOTO DO JOGADOR ===== */
+        .membro-card .membro-foto {
+            flex: 0 0 130px;
+            text-align: center;
+        }
+
+        .membro-card .membro-foto .foto-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid #2a3747;
+            overflow: hidden;
+            transition: all 0.3s;
+            background: #1f2a36;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .membro-card:hover .membro-foto .foto-circle {
+            border-color: #f7941d;
+            box-shadow: 0 0 30px rgba(247, 148, 29, 0.15);
+        }
+
+        .membro-card .membro-foto .foto-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .membro-card .membro-foto .foto-circle .placeholder {
+            font-size: 3rem;
+            color: #f7941d;
+            opacity: 0.4;
+        }
+
+        .membro-card .membro-foto .cargo-tag {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 14px;
+            border-radius: 20px;
+            background: rgba(247, 148, 29, 0.15);
+            color: #f7941d;
+            border: 1px solid rgba(247, 148, 29, 0.2);
+        }
+
+        .membro-card .membro-foto .cargo-tag.lider {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+            border-color: rgba(255, 215, 0, 0.2);
+        }
+
+        .membro-card .membro-foto .cargo-tag.fundador {
+            background: rgba(247, 148, 29, 0.25);
+            color: #f7941d;
+            border-color: rgba(247, 148, 29, 0.3);
+        }
+
+        /* ===== INFORMAÇÕES ===== */
+        .membro-card .membro-info {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .membro-card .membro-info .nome {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .membro-card .membro-info .nome i {
+            color: #f7941d;
+            margin-right: 6px;
+            font-size: 0.9rem;
+        }
+
+        .membro-card .membro-info .nick {
+            font-size: 0.8rem;
+            color: #8895aa;
+            margin-bottom: 10px;
+        }
+
+        .membro-card .membro-info .nick i {
+            margin-right: 4px;
+            color: #44505f;
+        }
+
+        .membro-card .membro-info .descricao {
+            color: #b0b9c9;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            background: rgba(17, 23, 31, 0.4);
+            border-radius: 8px;
+            border-left: 2px solid rgba(247, 148, 29, 0.2);
+        }
+
+        .membro-card .membro-info .descricao i {
+            color: #f7941d;
+            margin-right: 4px;
+            opacity: 0.6;
+        }
+
+        /* ===== CONQUISTAS ===== */
+        .membro-card .membro-info .conquistas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .membro-card .membro-info .conquistas .conquista-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 3px 10px 3px 6px;
+            border-radius: 20px;
+            background: rgba(247, 148, 29, 0.08);
+            border: 1px solid rgba(247, 148, 29, 0.1);
+            color: #b0b9c9;
+            transition: 0.2s;
+        }
+
+        .membro-card .membro-info .conquistas .conquista-item:hover {
+            background: rgba(247, 148, 29, 0.15);
+            border-color: rgba(247, 148, 29, 0.2);
+        }
+
+        .membro-card .membro-info .conquistas .conquista-item i {
+            font-size: 0.7rem;
+        }
+
+        .membro-card .membro-info .conquistas .conquista-item .ouro {
+            color: #ffd700;
+        }
+        .membro-card .membro-info .conquistas .conquista-item .prata {
+            color: #c0c0c0;
+        }
+        .membro-card .membro-info .conquistas .conquista-item .bronze {
+            color: #cd7f32;
+        }
+
+        /* ===== SEM CONQUISTAS ===== */
+        .membro-card .membro-info .sem-conquistas {
+            font-size: 0.7rem;
+            color: #44505f;
+            font-style: italic;
+        }
+
+        /* ===== RODAPÉ ===== */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #44505f;
+            font-size: 0.8rem;
+            border-top: 1px solid #1f2a36;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 2;
+            background: rgba(11, 14, 20, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+        }
+
+        .footer .footer-text {
+            flex: 1;
+            text-align: center;
+        }
+
+        .footer .footer-social {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer .footer-social a {
+            color: #b0b9c9;
+            font-size: 1.4rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer .footer-social a:hover {
+            color: #f7941d;
+            transform: scale(1.1);
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 992px) {
+            .content-area {
+                padding: 1rem;
+            }
+            .content-area::before {
+                width: 300px;
+                height: 169px;
+                opacity: 0.08;
+            }
+            .membros-grid {
+                grid-template-columns: 1fr;
+            }
+            .membro-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .membro-card .membro-foto {
+                flex: 0 0 auto;
+            }
+            .membro-card .membro-info .conquistas {
+                justify-content: center;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                height: auto;
+                padding: 1rem;
+                gap: 10px;
+                flex-direction: column;
+            }
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .user-area {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .frase-destaque {
+                font-size: 0.85rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .elenco-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .membro-card .membro-foto .foto-circle {
+                width: 100px;
+                height: 100px;
+            }
+            .membro-card .membro-info .nome {
+                font-size: 1.1rem;
+            }
+            .membro-card .membro-info .descricao {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .elenco-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .elenco-stats .stat-card .numero {
+                font-size: 1.3rem;
+            }
+            .membro-card {
+                padding: 1rem;
+            }
+            .membro-card .membro-foto .foto-circle {
+                width: 80px;
+                height: 80px;
+            }
+            .membro-card .membro-info .nome {
+                font-size: 1rem;
+            }
+            .membro-card .membro-info .conquistas .conquista-item {
+                font-size: 0.55rem;
+                padding: 2px 8px 2px 4px;
+            }
+            .elenco-desc {
+                padding: 15px;
+            }
+            .elenco-desc p {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #11171f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f7941d;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== MENU SUPERIOR ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="imagens/logo.png" alt="DRK Clan" class="logo" style="height:60px;width:auto;">
+            </a>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html" class="ativo">Inicío</a></li>
+            <li><a href="elenco.html" class="ativo">Elenco</a></li>
+            <li><a href="rankings.html">Ranking</a></li>
+            <li><a href="hall-da-fama.html">Hall da fama</a></li>
+            <li><a href="highlights.html">Highlights</a></li>
+            <li><a href="sorteios.html">Sorteios</a></li>
+        </ul>
+
+        <div class="user-area">
+            <div class="perfil2">
+                <img src="imagens/cs2.png" alt="Gamers Club" style="height:40px;width:auto;">
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== FRASE DESTAQUE ===== -->
+    <div class="frase-destaque">
+        <i class="fas fa-quote-left"></i>
+        Conheça os guerreiros do <span class="destaque-texto">clan DRK</span>!
+        Cada membro, uma lenda.
+        <i class="fas fa-quote-right"></i>
+    </div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="content-area">
+        <div class="container">
+
+            <!-- ===== HEADER ===== -->
+            <div class="page-header">
+                <h1><i class="fas fa-users"></i> Elenco</h1>
+                <a href="index.html" class="voltar">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Lobby
+                </a>
+            </div>
+
+            <!-- ===== STATS ===== -->
+            <div class="elenco-stats">
+                <div class="stat-card">
+                    <div class="numero">12</div>
+                    <div class="label"><i class="fas fa-users"></i> Membros</div>
+                </div>
+                <div class="stat-card">
+                    <div class="numero">4</div>
+                    <div class="label"><i class="fas fa-crown"></i> Fundadores</div>
+                </div>
+                <div class="stat-card">
+                    <div class="numero">8</div>
+                    <div class="label"><i class="fas fa-star"></i> Jogadores</div>
+                </div>
+                <div class="stat-card">
+                    <div class="numero">🏆</div>
+                    <div class="label"><i class="fas fa-trophy"></i> Conquistas</div>
+                </div>
+            </div>
+
+            <!-- ===== DESCRIÇÃO ===== -->
+            <div class="elenco-desc">
+                <p>
+                    <i class="fas fa-quote-left"></i>
+                    Esta é a <span class="destaque">família DRK</span>!
+                    Abaixo você encontra todos os membros do nosso clã.
+                    Cada jogador tem sua história, seu estilo e suas conquistas.
+                    <i class="fas fa-quote-right"></i>
+                </p>
+            </div>
+
+            <!-- ===== MEMBROS ===== -->
+            <div class="membros-grid">
+
+                <!-- ===== MEMBRO 1 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <img src="imagens/players/felps.png" alt="DRK FELPS">
+                        </div>
+                        <span class="cargo-tag fundador"><i class="fas fa-crown"></i> Fundador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> DRK FELPS</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @felps.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            Jogador profissional de CS2, especialista em AWP e estratégias avançadas. 
+                            Sempre buscando evoluir e ajudar o time a alcançar a vitória.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-trophy ouro"></i> Top 1 MIX</span>
+                            <span class="conquista-item"><i class="fas fa-medal ouro"></i> Hall da Fama</span>
+                            <span class="conquista-item"><i class="fas fa-star ouro"></i> MVP do Mês</span>
+                            <span class="conquista-item"><i class="fas fa-crosshairs prata"></i> Melhor KDR</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MEMBRO 2 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                        </div>
+                        <span class="cargo-tag fundador"><i class="fas fa-crown"></i> Fundador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> DRK O PROBLEMA DA DIVISAO</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @problema.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            Estrategista nato e líder tático. Responsável por criar as jogadas 
+                            e coordenar a equipe durante as partidas.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-trophy prata"></i> Top 2 MIX</span>
+                            <span class="conquista-item"><i class="fas fa-chess-king ouro"></i> Melhor Estrategista</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MEMBRO 3 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                        </div>
+                        <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> DRK - maRceLino</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @marcelino.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            Especialista em rifler e entry fragger. Sua agressividade e precisão 
+                            garantem abertura de espaços para o time.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-trophy bronze"></i> Top 3 MIX</span>
+                            <span class="conquista-item"><i class="fas fa-fire ouro"></i> Melhor Entry</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MEMBRO 4 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                        </div>
+                        <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> DRK - AGOSTINHO CALLRARA</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @agostinho.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            Suporte dedicado e especialista em utility. Mantém o time vivo 
+                            com flashes e smokes precisos.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-shield-alt ouro"></i> Melhor Suporte</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MEMBRO 5 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                        </div>
+                        <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> DRK - LAPADA CERTA</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @lapada.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            Sniper de elite com reflexos impressionantes. Sua mira cirúrgica 
+                            garante kills importantes nos momentos decisivos.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-crosshairs prata"></i> Melhor AWP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MEMBRO 6 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                        </div>
+                        <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> DRK - BIGODE</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @bigode.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            Jogador versátil que se adapta a qualquer função. Confiável e consistente 
+                            em todas as partidas.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-shield-alt bronze"></i> Melhor Versatilidade</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MEMBRO 7 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                        </div>
+                        <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> GA FalleN</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @fallen.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            IGL experiente com visão de jogo apurada. Comanda as estratégias 
+                            e mantém a moral da equipe elevada.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-chess-king ouro"></i> Melhor IGL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MEMBRO 8 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                        </div>
+                        <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> DRK - AWPELOTTI</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @awpelotti.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            Especialista em AWP e ângulos difíceis. Sua presença no mapa 
+                            intimida os adversários.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-crosshairs bronze"></i> Melhor Ângulo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MEMBRO 9 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                        </div>
+                        <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> higuinho drk</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @higuinho.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            Jogador agressivo com excelente game sense. Sempre buscando 
+                            plays ousadas e impactantes.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-fire prata"></i> Play do Mês</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MEMBRO 10 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                        </div>
+                        <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> Qrcodematador</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @qrco.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            Especialista em clutches e situações de pressão. Sua calma 
+                            em momentos críticos é sua maior arma.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-user-secret ouro"></i> Rei do Clutch</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MEMBRO 11 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                        </div>
+                        <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> DRK FURIOSO</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @furioso.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            Jogador explosivo com estilo agressivo. Sempre pronto para 
+                            entrar na batalha e causar impacto.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-bolt ouro"></i> Melhor Agressividade</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MEMBRO 12 ===== -->
+                <div class="membro-card">
+                    <div class="membro-foto">
+                        <div class="foto-circle">
+                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                        </div>
+                        <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
+                    </div>
+                    <div class="membro-info">
+                        <div class="nome"><i class="fas fa-user"></i> DRK S4NT0S</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @s4nt0s.drk</div>
+                        <div class="descricao">
+                            <i class="fas fa-quote-left"></i>
+                            Jogador dedicado e sempre em evolução. Ótimo teammate 
+                            e presença constante nos treinos.
+                        </div>
+                        <div class="conquistas">
+                            <span class="conquista-item"><i class="fas fa-heart ouro"></i> Melhor Teammate</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== RODAPÉ ===== -->
+    <footer class="footer">
+        <span class="footer-text">© 2026 DRK Clã CS2</span>
+        <div class="footer-social">
+            <a href="https://discord.gg/aWCF8WXRM" target="_blank" title="Entre no nosso Discord">
+                <i class="fab fa-discord"></i>
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>

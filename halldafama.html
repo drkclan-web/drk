@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRK Clan - Hall da Fama</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== RESET E ESTILOS GERAIS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0e14;
+            color: #e0e4ec;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== MENU SUPERIOR ===== */
+        .navbar {
+            background: #151c26;
+            border-bottom: 2px solid #f7941d;
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar .logo i {
+            color: #f7941d;
+            font-size: 2rem;
+        }
+
+        .navbar .logo span {
+            color: #f7941d;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .nav-links li a {
+            color: #b0b9c9;
+            transition: 0.2s;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links li a:hover {
+            color: #fff;
+            border-bottom-color: #f7941d;
+        }
+
+        .nav-links li a.ativo {
+            color: #fff;
+            border-bottom-color: #f7941d;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-area .perfil2 img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* ===== FRASE DESTAQUE ===== */
+        .frase-destaque {
+            background: linear-gradient(90deg, #1f2a36, #151c26);
+            padding: 0.8rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #2a3747;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #e0e4ec;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .frase-destaque i {
+            color: #f7941d;
+            margin: 0 8px;
+        }
+
+        .frase-destaque .destaque-texto {
+            color: #f7941d;
+            font-weight: 700;
+        }
+
+        /* ===== CONTEÚDO PRINCIPAL ===== */
+        .content-area {
+            flex: 1;
+            padding: 2rem 2rem 0 2rem;
+            min-height: calc(100vh - 70px);
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .content-area::before {
+            content: '';
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: 338px;
+            background-image: url('imagens/bg.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== HERO BANNER ===== */
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(21, 28, 38, 0.95), rgba(247, 148, 29, 0.1));
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 2px solid #f7941d;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 0 60px rgba(247, 148, 29, 0.1);
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(247, 148, 29, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-banner .badge-hall {
+            display: inline-block;
+            background: #f7941d;
+            color: #0b0e14;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 20px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .hero-banner h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 40px rgba(247, 148, 29, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-banner h1 .highlight {
+            color: #f7941d;
+            position: relative;
+        }
+
+        .hero-banner h1 .highlight::after {
+            content: '👑';
+            font-size: 2rem;
+            margin-left: 10px;
+        }
+
+        .hero-banner p {
+            color: #b0b9c9;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        .hero-banner .data-destaque {
+            display: inline-block;
+            background: rgba(31, 42, 54, 0.8);
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #8895aa;
+            margin-top: 15px;
+            border: 1px solid #2a3747;
+        }
+
+        .hero-banner .data-destaque i {
+            color: #f7941d;
+            margin-right: 8px;
+        }
+
+        /* ===== PERFIL DO PLAYER ===== */
+        .player-profile {
+            display: flex;
+            gap: 2.5rem;
+            background: rgba(21, 28, 38, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid #2a3747;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            transition: 0.3s;
+        }
+
+        .player-profile:hover {
+            border-color: #f7941d;
+            box-shadow: 0 0 40px rgba(247, 148, 29, 0.05);
+        }
+
+        /* Foto do Player */
+        .player-avatar {
+            flex: 0 0 200px;
+            text-align: center;
+        }
+
+        .player-avatar .avatar-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 4px solid #f7941d;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(247, 148, 29, 0.2);
+    transition: 0.3s;
+    margin: 0 auto;
+    background: #1f2a36;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+        .player-avatar .avatar-circle:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 60px rgba(247, 148, 29, 0.4);
+        }
+
+        .player-avatar .avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* ← ESSA É A LINHA QUE CORRIGE */
+    object-position: center center;
+    display: block;
+}
+
+        .player-avatar .avatar-circle .placeholder {
+    font-size: 5rem;
+    color: #f7941d;
+    opacity: 0.5;
+}
+
+        .player-avatar .player-status {
+            margin-top: 12px;
+            display: inline-block;
+            background: rgba(247, 148, 29, 0.15);
+            color: #f7941d;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            border: 1px solid rgba(247, 148, 29, 0.2);
+        }
+
+        /* Informações do Player */
+        .player-info {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .player-info .player-name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .player-info .player-name i {
+            color: #f7941d;
+            margin-right: 10px;
+        }
+
+        .player-info .player-title {
+            color: #f7941d;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .player-info .player-desc {
+            color: #b0b9c9;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: rgba(17, 23, 31, 0.5);
+            border-radius: 12px;
+            border-left: 3px solid #f7941d;
+        }
+
+        .player-info .player-desc i {
+            color: #f7941d;
+            margin-right: 8px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid .stat-item {
+            background: rgba(17, 23, 31, 0.6);
+            padding: 12px 16px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #1f2a36;
+            transition: 0.3s;
+        }
+
+        .stats-grid .stat-item:hover {
+            border-color: #f7941d;
+            transform: translateY(-2px);
+        }
+
+        .stats-grid .stat-item .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f7941d;
+        }
+
+        .stats-grid .stat-item .stat-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: #8895aa;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .stats-grid .stat-item .stat-icon {
+            font-size: 0.9rem;
+            color: #f7941d;
+            margin-right: 4px;
+        }
+
+        /* ===== CONQUISTAS ===== */
+        .conquistas-section {
+            background: rgba(21, 28, 38, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid #2a3747;
+            margin-bottom: 2.5rem;
+        }
+
+        .conquistas-section .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .conquistas-section .section-title i {
+            color: #f7941d;
+        }
+
+        .conquistas-section .section-title .badge-count {
+            background: #f7941d;
+            color: #0b0e14;
+            font-size: 0.7rem;
+            padding: 2px 12px;
+            border-radius: 20px;
+        }
+
+        .conquistas-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .conquista-item {
+            background: rgba(17, 23, 31, 0.6);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid #1f2a36;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: 0.3s;
+            flex: 1 1 200px;
+            min-width: 180px;
+        }
+
+        .conquista-item:hover {
+            border-color: #f7941d;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(247, 148, 29, 0.1);
+        }
+
+        .conquista-item .conquista-icon {
+            font-size: 2.2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(247, 148, 29, 0.1);
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .conquista-item .conquista-info .conquista-nome {
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .conquista-item .conquista-info .conquista-desc {
+            font-size: 0.7rem;
+            color: #8895aa;
+        }
+
+        .conquista-item .conquista-info .conquista-data {
+            font-size: 0.6rem;
+            color: #44505f;
+            margin-top: 2px;
+        }
+
+        /* ===== SEM CONQUISTAS ===== */
+        .no-conquistas {
+            text-align: center;
+            padding: 30px;
+            color: #8895aa;
+        }
+
+        .no-conquistas i {
+            font-size: 2.5rem;
+            color: #f7941d;
+            opacity: 0.3;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* ===== ÍCONE DE CONQUISTA ===== */
+.player-avatar .conquista-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.player-avatar .conquista-icone img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(247, 148, 29, 0.3));
+    transition: all 0.3s ease;
+}
+
+.player-avatar .conquista-icone:hover img {
+    transform: scale(1.15) rotate(-5deg);
+    filter: drop-shadow(0 0 20px rgba(247, 148, 29, 0.6));
+}
+
+/* Efeito de brilho pulsante */
+.player-avatar .conquista-icone.pulse {
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+    0%, 100% { 
+        filter: drop-shadow(0 0 10px rgba(247, 148, 29, 0.3));
+    }
+    50% { 
+        filter: drop-shadow(0 0 25px rgba(247, 148, 29, 0.7));
+    }
+}
+
+/* Tooltip ao passar o mouse */
+.player-avatar .conquista-icone .tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: rgba(11, 14, 20, 0.95);
+    backdrop-filter: blur(10px);
+    color: #e0e4ec;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid #f7941d;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.player-avatar .conquista-icone .tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #f7941d;
+}
+
+.player-avatar .conquista-icone:hover .tooltip {
+    transform: translateX(-50%) scale(1);
+}
+
+/* Tamanhos responsivos */
+@media (max-width: 768px) {
+    .player-avatar .conquista-icone {
+        width: 32px;
+        height: 32px;
+    }
+    .player-avatar .conquista-icone .tooltip {
+        font-size: 0.6rem;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .player-avatar .conquista-icone {
+        width: 28px;
+        height: 28px;
+        margin-top: 8px;
+    }
+}
+
+        /* ===== RODAPÉ ===== */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #44505f;
+            font-size: 0.8rem;
+            border-top: 1px solid #1f2a36;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 2;
+            background: rgba(11, 14, 20, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+        }
+
+        .footer .footer-text {
+            flex: 1;
+            text-align: center;
+        }
+
+        .footer .footer-social {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer .footer-social a {
+            color: #b0b9c9;
+            font-size: 1.4rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer .footer-social a:hover {
+            color: #f7941d;
+            transform: scale(1.1);
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 992px) {
+            .content-area {
+                padding: 1rem;
+            }
+            .content-area::before {
+                width: 300px;
+                height: 169px;
+                opacity: 0.1;
+            }
+            .hero-banner h1 {
+                font-size: 2.8rem;
+            }
+            .player-profile {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 1.5rem;
+            }
+            .player-avatar {
+                flex: 0 0 auto;
+            }
+            .player-info .player-desc {
+                text-align: left;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                height: auto;
+                padding: 1rem;
+                gap: 10px;
+                flex-direction: column;
+            }
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .user-area {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .frase-destaque {
+                font-size: 0.85rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .hero-banner {
+                padding: 2rem 1rem;
+            }
+            .hero-banner h1 {
+                font-size: 2rem;
+            }
+            .hero-banner h1 .highlight::after {
+                font-size: 1.5rem;
+            }
+            .hero-banner p {
+                font-size: 0.9rem;
+            }
+
+            .player-avatar .avatar-circle {
+                width: 150px;
+                height: 150px;
+            }
+
+            .player-info .player-name {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .conquistas-grid {
+                flex-direction: column;
+            }
+            .conquista-item {
+                flex: 1 1 auto;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.8rem;
+            }
+            .footer .footer-text {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-banner h1 {
+                font-size: 1.5rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .player-avatar .avatar-circle {
+                width: 120px;
+                height: 120px;
+            }
+            .player-info .player-name {
+                font-size: 1.2rem;
+            }
+            .conquista-item {
+                min-width: auto;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #11171f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f7941d;
+            border-radius: 10px;
+        }
+
+        /* Efeito de brilho no nome */
+        .glow-text {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 20px rgba(247, 148, 29, 0.2); }
+            100% { text-shadow: 0 0 40px rgba(247, 148, 29, 0.6), 0 0 80px rgba(247, 148, 29, 0.2); }
+        }
+
+        /* Estrelas decorativas */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .stars span {
+            position: absolute;
+            display: block;
+            width: 4px;
+            height: 4px;
+            background: #f7941d;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== MENU SUPERIOR ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="imagens/logo.png" alt="DRK Clan" class="logo" style="height:60px;width:auto;">
+            </a>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="elenco.html">Elenco</a></li>
+            <li><a href="rankinggeral.html">Ranking</a></li>
+            <li><a href="halldafama.html" class="ativo">Hall da fama</a></li>
+            <li><a href="highlights.html">Highlights</a></li>
+            <li><a href="sorteios.html">Sorteios</a></li>
+        </ul>
+
+        <div class="user-area">
+            <div class="perfil2">
+                <img src="imagens/cs2.png" alt="Gamers Club" style="height:40px;width:auto;">
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== FRASE DESTAQUE ===== -->
+    <div class="frase-destaque">
+        <i class="fas fa-quote-left"></i>
+        Honra, glória e imortalidade. O <span class="destaque-texto">Hall da Fama</span> do clan DRK!
+        <i class="fas fa-quote-right"></i>
+    </div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="content-area">
+        <div class="container">
+
+            <!-- ===== HERO BANNER ===== -->
+            <div class="hero-banner">
+                <div class="stars">
+                    <span style="top:10%;left:10%;animation-delay:0s;"></span>
+                    <span style="top:20%;right:15%;animation-delay:1s;"></span>
+                    <span style="bottom:30%;left:20%;animation-delay:2s;"></span>
+                    <span style="top:40%;right:25%;animation-delay:0.5s;"></span>
+                    <span style="bottom:20%;right:10%;animation-delay:1.5s;"></span>
+                    <span style="top:60%;left:5%;animation-delay:2.5s;"></span>
+                    <span style="top:80%;right:30%;animation-delay:0.8s;"></span>
+                    <span style="bottom:10%;left:40%;animation-delay:1.8s;"></span>
+                </div>
+                <span class="badge-hall"><i class="fas fa-crown"></i> HALL DA FAMA</span>
+                <h1>🏆 <span class="highlight glow-text">DRK ?</span></h1>
+                <p>Detentor do Hall da Fama por ser o <strong>Top 1 do Ranking MIX</strong> do mês de Julho de 2026</p>
+                <span class="data-destaque"><i class="far fa-calendar-alt"></i> Indução em 17 de Julho de 2026</span>
+            </div>
+
+            <!-- ===== PERFIL DO PLAYER ===== -->
+<div class="player-profile">
+    <!-- Foto -->
+    <div class="player-avatar">
+        <div class="avatar-circle">
+            <img src="imagens/halldafamamisterio.png" alt="DRK ?">
+            <!-- <span class="placeholder"><i class="fas fa-user"></i></span> -->
+        </div>
+        
+        <!-- ===== ÍCONE DE CONQUISTA (SUBSTITUI O "ONLINE") ===== -->
+        <div class="conquista-icone" title="Hall da Fama - Top 1 Ranking MIX">
+            <img src="imagens/iconhall.png" alt="Hall da Fama">
+        </div>
+    </div>
+
+    <!-- Informações -->
+    <div class="player-info">
+        <div class="player-name">
+            <i class="fas fa-user"></i> DRK ?
+        </div>
+        <div class="player-title">
+            <i class="fas fa-trophy"></i> Hall da Fama - Mês de Julho 2026
+        </div>
+
+        <div class="player-desc">
+            <i class="fas fa-quote-left"></i>
+            Jogador destaque do clan DRK no mês de Julho de 2026. 
+            Sua consistência e habilidade em partidas MIX renderam o título de 
+            <strong>Top 1 do Ranking MIX</strong>, com impressionantes 
+            <strong>8 vitórias</strong> em 10 partidas disputadas.
+            <br><br>
+            <i class="fas fa-flag"></i>
+            <strong>Conquista:</strong> Líder do Ranking MIX por 3 semanas consecutivas.
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number"><i class="fas fa-trophy stat-icon"></i> 1</div>
+                <div class="stat-label">Ranking MIX</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number"><i class="fas fa-gamepad stat-icon"></i> 10</div>
+                <div class="stat-label">Partidas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number"><i class="fas fa-crown stat-icon"></i> 8</div>
+                <div class="stat-label">Vitórias</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number"><i class="fas fa-skull stat-icon"></i> 87</div>
+                <div class="stat-label">Total Kills</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number"><i class="fas fa-crosshairs stat-icon"></i> 1.27</div>
+                <div class="stat-label">KDR</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number"><i class="fas fa-bolt stat-icon"></i> 107.2</div>
+                <div class="stat-label">ADR</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ===== CONQUISTAS ===== -->
+            <div class="conquistas-section">
+                <div class="section-title">
+                    <i class="fas fa-medal"></i> Conquistas do Jogador
+                    <span class="badge-count">6 conquistas</span>
+                </div>
+
+                <div class="conquistas-grid">
+                    <!-- Conquista 1 -->
+                    <div class="conquista-item">
+                        <div class="conquista-icon">🏆</div>
+                        <div class="conquista-info">
+                            <div class="conquista-nome">Top 1 Ranking MIX</div>
+                            <div class="conquista-desc">Líder do ranking MIX do mês de Julho</div>
+                            <div class="conquista-data"><i class="far fa-calendar-alt"></i> Julho 2026</div>
+                        </div>
+                    </div>
+
+                    <!-- Conquista 2 -->
+                    <div class="conquista-item">
+                        <div class="conquista-icon">👑</div>
+                        <div class="conquista-info">
+                            <div class="conquista-nome">Rei do MIX</div>
+                            <div class="conquista-desc">3 semanas consecutivas no Top 1</div>
+                            <div class="conquista-data"><i class="far fa-calendar-alt"></i> Julho 2026</div>
+                        </div>
+                    </div>
+
+                    <!-- Conquista 3 -->
+                    <div class="conquista-item">
+                        <div class="conquista-icon">💎</div>
+                        <div class="conquista-info">
+                            <div class="conquista-nome">ADR de Elite</div>
+                            <div class="conquista-desc">ADR acima de 100 em 5 partidas</div>
+                            <div class="conquista-data"><i class="far fa-calendar-alt"></i> Julho 2026</div>
+                        </div>
+                    </div>
+
+                    <!-- Conquista 4 -->
+                    <div class="conquista-item">
+                        <div class="conquista-icon">⚡</div>
+                        <div class="conquista-info">
+                            <div class="conquista-nome">Duelista Implacável</div>
+                            <div class="conquista-desc">30+ kills em uma única partida</div>
+                            <div class="conquista-data"><i class="far fa-calendar-alt"></i> Julho 2026</div>
+                        </div>
+                    </div>
+
+                    <!-- Conquista 5 -->
+                    <div class="conquista-item">
+                        <div class="conquista-icon">🎯</div>
+                        <div class="conquista-info">
+                            <div class="conquista-nome">Precisão Milimétrica</div>
+                            <div class="conquista-desc">KDR acima de 1.5 em 3 partidas</div>
+                            <div class="conquista-data"><i class="far fa-calendar-alt"></i> Julho 2026</div>
+                        </div>
+                    </div>
+
+                    <!-- Conquista 6 -->
+                    <div class="conquista-item">
+                        <div class="conquista-icon">🌟</div>
+                        <div class="conquista-info">
+                            <div class="conquista-nome">MVP do Mês</div>
+                            <div class="conquista-desc">Reconhecido como MVP pelos membros</div>
+                            <div class="conquista-data"><i class="far fa-calendar-alt"></i> Julho 2026</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== MENSAGEM DE HOMENAGEM ===== -->
+            <div class="conquistas-section" style="border-color:#f7941d;background:rgba(247,148,29,0.05);">
+                <div class="section-title" style="justify-content:center;">
+                    <i class="fas fa-heart" style="color:#ff6b6b;"></i>
+                    Homenagem do Clã
+                    <i class="fas fa-heart" style="color:#ff6b6b;"></i>
+                </div>
+                <p style="text-align:center;color:#b0b9c9;font-size:1rem;line-height:1.8;max-width:700px;margin:0 auto;">
+                    <i class="fas fa-quote-left" style="color:#f7941d;opacity:0.5;"></i>
+                    O clan DRK reconhece e homenageia <strong style="color:#f7941d;">DRK ?</strong> 
+                    por sua dedicação, habilidade e espírito competitivo. 
+                    Sua performance no mês de Julho de 2026 foi exemplar e servirá de inspiração 
+                    para todos os membros do clã.
+                    <i class="fas fa-quote-right" style="color:#f7941d;opacity:0.5;"></i>
+                </p>
+                <div style="text-align:center;margin-top:20px;">
+                    <span style="display:inline-block;background:rgba(247,148,29,0.15);padding:8px 20px;border-radius:30px;font-size:0.8rem;color:#f7941d;border:1px solid rgba(247,148,29,0.2);">
+                        <i class="fas fa-calendar-check"></i> Hall da Fama - Indução em 17/07/2026
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== RODAPÉ ===== -->
+    <footer class="footer">
+        <span class="footer-text">© 2026 DRK Clã CS2</span>
+        <div class="footer-social">
+            <a href="https://discord.gg/aWCF8WXRM" target="_blank" title="Entre no nosso Discord">
+                <i class="fab fa-discord"></i>
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRK Clan - Highlights</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== RESET E ESTILOS GERAIS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0e14;
+            color: #e0e4ec;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== MENU SUPERIOR ===== */
+        .navbar {
+            background: #151c26;
+            border-bottom: 2px solid #f7941d;
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar .logo i {
+            color: #f7941d;
+            font-size: 2rem;
+        }
+
+        .navbar .logo span {
+            color: #f7941d;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .nav-links li a {
+            color: #b0b9c9;
+            transition: 0.2s;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links li a:hover {
+            color: #fff;
+            border-bottom-color: #f7941d;
+        }
+
+        .nav-links li a.ativo {
+            color: #fff;
+            border-bottom-color: #f7941d;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-area .perfil2 img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* ===== FRASE DESTAQUE ===== */
+        .frase-destaque {
+            background: linear-gradient(90deg, #1f2a36, #151c26);
+            padding: 0.8rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #2a3747;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #e0e4ec;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .frase-destaque i {
+            color: #f7941d;
+            margin: 0 8px;
+        }
+
+        .frase-destaque .destaque-texto {
+            color: #f7941d;
+            font-weight: 700;
+        }
+
+        /* ===== CONTEÚDO PRINCIPAL ===== */
+        .content-area {
+            flex: 1;
+            padding: 2rem 2rem 0 2rem;
+            min-height: calc(100vh - 70px);
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content-area::before {
+            content: '';
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: 338px;
+            background-image: url('imagens/bg.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== HEADER DA PÁGINA ===== */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f7941d;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .page-header h1 i {
+            color: #f7941d;
+            margin-right: 12px;
+        }
+
+        .page-header .voltar {
+            background: #1f2a36;
+            color: #b0b9c9;
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border: 1px solid #2a3747;
+        }
+
+        .page-header .voltar:hover {
+            background: #f7941d;
+            color: #0b0e14;
+            border-color: #f7941d;
+            transform: scale(1.05);
+        }
+
+        /* ===== HIGHLIGHTS CONTAINER ===== */
+        .highlights-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+        }
+
+        .highlights-content {
+            background: rgba(21, 28, 38, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 20px;
+            padding: 4rem 3rem;
+            border: 1px solid #2a3747;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .highlights-content:hover {
+            border-color: #f7941d;
+            box-shadow: 0 0 60px rgba(247, 148, 29, 0.05);
+        }
+
+        /* ===== EFEITOS DECORATIVOS ===== */
+        .highlights-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(247, 148, 29, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .highlights-content .glow-orb {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(247, 148, 29, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .highlights-content .glow-orb.left {
+            top: auto;
+            bottom: -100px;
+            left: -100px;
+            right: auto;
+        }
+
+        /* ===== ÍCONE PRINCIPAL ===== */
+        .highlights-content .main-icon {
+            font-size: 5rem;
+            color: #f7941d;
+            margin-bottom: 25px;
+            display: inline-block;
+            animation: iconFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(247, 148, 29, 0.2));
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* ===== BADGE ===== */
+        .highlights-content .badge-em-breve {
+            display: inline-block;
+            background: linear-gradient(135deg, #f7941d, #d47a0e);
+            color: #0b0e14;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 20px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        /* ===== TÍTULO ===== */
+        .highlights-content h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .highlights-content h2 i {
+            color: #f7941d;
+            margin: 0 8px;
+        }
+
+        /* ===== TEXTO ===== */
+        .highlights-content p {
+            color: #b0b9c9;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .highlights-content p i {
+            color: #f7941d;
+            margin: 0 4px;
+        }
+
+        .highlights-content p .destaque {
+            color: #f7941d;
+            font-weight: 700;
+        }
+
+        /* ===== LINHAS DECORATIVAS ===== */
+        .highlights-content .linha-decorativa {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #f7941d, transparent);
+            margin: 25px auto;
+            border-radius: 10px;
+        }
+
+        /* ===== ÍCONES DE MÍDIA ===== */
+        .highlights-content .media-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .highlights-content .media-icons .icon-item {
+            background: rgba(31, 42, 54, 0.6);
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid #2a3747;
+            color: #8895aa;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .highlights-content .media-icons .icon-item i {
+            font-size: 1.2rem;
+            color: #f7941d;
+        }
+
+        .highlights-content .media-icons .icon-item:hover {
+            border-color: #f7941d;
+            background: rgba(247, 148, 29, 0.05);
+            transform: translateY(-3px);
+        }
+
+        /* ===== RODAPÉ ===== */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #44505f;
+            font-size: 0.8rem;
+            border-top: 1px solid #1f2a36;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 2;
+            background: rgba(11, 14, 20, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+        }
+
+        .footer .footer-text {
+            flex: 1;
+            text-align: center;
+        }
+
+        .footer .footer-social {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer .footer-social a {
+            color: #b0b9c9;
+            font-size: 1.4rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer .footer-social a:hover {
+            color: #f7941d;
+            transform: scale(1.1);
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 992px) {
+            .content-area {
+                padding: 1rem;
+            }
+            .content-area::before {
+                width: 300px;
+                height: 169px;
+                opacity: 0.08;
+            }
+            .highlights-content {
+                padding: 3rem 2rem;
+            }
+            .highlights-content h2 {
+                font-size: 1.8rem;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                height: auto;
+                padding: 1rem;
+                gap: 10px;
+                flex-direction: column;
+            }
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .user-area {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .frase-destaque {
+                font-size: 0.85rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .highlights-content {
+                padding: 2rem 1.5rem;
+            }
+            .highlights-content .main-icon {
+                font-size: 3.5rem;
+            }
+            .highlights-content h2 {
+                font-size: 1.4rem;
+            }
+            .highlights-content p {
+                font-size: 0.95rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .highlights-content .media-icons {
+                gap: 12px;
+            }
+            .highlights-content .media-icons .icon-item {
+                padding: 10px 14px;
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .highlights-content {
+                padding: 1.5rem 1rem;
+            }
+            .highlights-content .main-icon {
+                font-size: 2.8rem;
+            }
+            .highlights-content h2 {
+                font-size: 1.2rem;
+            }
+            .highlights-content p {
+                font-size: 0.85rem;
+            }
+            .highlights-content .media-icons .icon-item {
+                padding: 8px 12px;
+                font-size: 0.65rem;
+            }
+            .highlights-content .media-icons .icon-item i {
+                font-size: 1rem;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #11171f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f7941d;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== MENU SUPERIOR ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="imagens/logo.png" alt="DRK Clan" class="logo" style="height:60px;width:auto;">
+            </a>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="elenco.html">Elenco</a></li>
+            <li><a href="rankings.html">Ranking</a></li>
+            <li><a href="hall-da-fama.html">Hall da fama</a></li>
+            <li><a href="highlights.html" class="ativo">Highlights</a></li>
+            <li><a href="sorteios.html">Sorteios</a></li>
+        </ul>
+
+        <div class="user-area">
+            <div class="perfil2">
+                <img src="imagens/gamersclub.png" alt="Gamers Club" style="height:40px;width:auto;">
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== FRASE DESTAQUE ===== -->
+    <div class="frase-destaque">
+        <i class="fas fa-quote-left"></i>
+        Os melhores momentos do <span class="destaque-texto">clan DRK</span>!
+        Em breve, vídeos com as jogadas mais incríveis.
+        <i class="fas fa-quote-right"></i>
+    </div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="content-area">
+        <div class="container">
+
+            <!-- ===== HEADER ===== -->
+            <div class="page-header">
+                <h1><i class="fas fa-video"></i> Highlights</h1>
+                <a href="index.html" class="voltar">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Lobby
+                </a>
+            </div>
+
+            <!-- ===== HIGHLIGHTS ===== -->
+            <div class="highlights-wrapper">
+                <div class="highlights-content">
+                    <!-- Orbes decorativos -->
+                    <div class="glow-orb"></div>
+                    <div class="glow-orb left"></div>
+
+                    <!-- Ícone principal -->
+                    <div class="main-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+
+                    <!-- Badge -->
+                    <span class="badge-em-breve"><i class="fas fa-clock"></i> Em breve</span>
+
+                    <!-- Título -->
+                    <h2>
+                        <i class="fas fa-play-circle"></i>
+                        Highlights DRK
+                        <i class="fas fa-play-circle"></i>
+                    </h2>
+
+                    <!-- Linha decorativa -->
+                    <div class="linha-decorativa"></div>
+
+                    <!-- Texto -->
+                    <p>
+                        <i class="fas fa-quote-left" style="opacity:0.3;"></i>
+                        Estamos preparando uma <span class="destaque">coleção especial</span> 
+                        com os melhores momentos, jogadas incríveis e plays memoráveis do 
+                        <span class="destaque">clan DRK</span>!
+                        <br><br>
+                        <i class="fas fa-rocket"></i>
+                        Em breve você poderá reviver as <span class="destaque">melhores ações</span> 
+                        dos nossos jogadores em vídeos exclusivos.
+                        <i class="fas fa-quote-right" style="opacity:0.3;"></i>
+                    </p>
+
+                    <!-- Ícones de mídia -->
+                    <div class="media-icons">
+                        <div class="icon-item">
+                            <i class="fab fa-youtube"></i> YouTube
+                        </div>
+                        <div class="icon-item">
+                            <i class="fab fa-twitch"></i> Twitch
+                        </div>
+                        <div class="icon-item">
+                            <i class="fas fa-play"></i> Clips
+                        </div>
+                        
+                    </div>
+
+                    <!-- Texto adicional -->
+                    <p style="margin-top:20px;font-size:0.85rem;color:#8895aa;">
+                        <i class="fas fa-info-circle" style="color:#f7941d;"></i>
+                        Fique ligado no Discord para ser avisado quando os vídeos forem lançados!
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== RODAPÉ ===== -->
+    <footer class="footer">
+        <span class="footer-text">© 2026 DRK Clã CS2</span>
+        <div class="footer-social">
+            <a href="https://discord.gg/aWCF8WXRM" target="_blank" title="Entre no nosso Discord">
+                <i class="fab fa-discord"></i>
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>
