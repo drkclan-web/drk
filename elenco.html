@@ -301,7 +301,7 @@
             box-shadow: 0 8px 40px rgba(247, 148, 29, 0.08);
         }
 
-        /* ===== FOTO DO JOGADOR ===== */
+        /* ===== FOTO DO JOGADOR - CORREÇÃO AQUI ===== */
         .membro-card .membro-foto {
             flex: 0 0 130px;
             text-align: center;
@@ -318,6 +318,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            /* CORREÇÃO: força a imagem a ficar centralizada */
+            position: relative;
         }
 
         .membro-card:hover .membro-foto .foto-circle {
@@ -325,10 +327,14 @@
             box-shadow: 0 0 30px rgba(247, 148, 29, 0.15);
         }
 
+        /* CORREÇÃO: estilos para a imagem dentro do círculo */
         .membro-card .membro-foto .foto-circle img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            /* CORREÇÃO: centraliza a imagem */
+            object-position: center center;
+            display: block;
         }
 
         .membro-card .membro-foto .foto-circle .placeholder {
@@ -700,7 +706,7 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <img src="imagens/players/felps.png" alt="DRK FELPS">
+                            <img src="imagens/drkfelps.png" alt="DRK FELPS">
                         </div>
                         <span class="cargo-tag fundador"><i class="fas fa-crown"></i> Fundador</span>
                     </div>
@@ -725,12 +731,12 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                            <img src="imagens/drkfumador.png" alt="DRK FUMADOR">
                         </div>
                         <span class="cargo-tag fundador"><i class="fas fa-crown"></i> Fundador</span>
                     </div>
                     <div class="membro-info">
-                        <div class="nome"><i class="fas fa-user"></i> DRK O PROBLEMA DA DIVISAO</div>
+                        <div class="nome"><i class="fas fa-user"></i> DRK - FUMADOR</div>
                         <div class="nick"><i class="fas fa-tag"></i> @problema.drk</div>
                         <div class="descricao">
                             <i class="fas fa-quote-left"></i>
@@ -748,7 +754,7 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                            <img src="imagens/drkmarcelino.png" alt="DRK - maRceLino">
                         </div>
                         <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
                     </div>
@@ -771,7 +777,7 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                            <img src="imagens/drkchaplo.png" alt="DRK - AGOSTINHO CALLRARA">
                         </div>
                         <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
                     </div>
@@ -793,7 +799,7 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                            <img src="imagens/drklapada.png" alt="DRK - LAPADA CERTA">
                         </div>
                         <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
                     </div>
@@ -815,7 +821,7 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                           <img src="imagens/drkbigode.png" alt="DRK - BIGODE">
                         </div>
                         <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
                     </div>
@@ -837,13 +843,13 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                            <img src="imagens/drkhiguinho.png" alt="DRK - HIGUINHO">
                         </div>
                         <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
                     </div>
                     <div class="membro-info">
-                        <div class="nome"><i class="fas fa-user"></i> GA FalleN</div>
-                        <div class="nick"><i class="fas fa-tag"></i> @fallen.drk</div>
+                        <div class="nome"><i class="fas fa-user"></i> DRK - HIGUINHO</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @</div>
                         <div class="descricao">
                             <i class="fas fa-quote-left"></i>
                             IGL experiente com visão de jogo apurada. Comanda as estratégias 
@@ -859,7 +865,7 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                            <img src="imagens/drkawpelotti.png" alt="DRK - AWPELOTTI">
                         </div>
                         <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
                     </div>
@@ -881,13 +887,13 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                             <img src="imagens/halldafamamisterio.png" alt="DRK - AWPELOTTI">
                         </div>
                         <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
                     </div>
                     <div class="membro-info">
-                        <div class="nome"><i class="fas fa-user"></i> higuinho drk</div>
-                        <div class="nick"><i class="fas fa-tag"></i> @higuinho.drk</div>
+                        <div class="nome"><i class="fas fa-user"></i> DRK - NEY GORDO</div>
+                        <div class="nick"><i class="fas fa-tag"></i> @dih</div>
                         <div class="descricao">
                             <i class="fas fa-quote-left"></i>
                             Jogador agressivo com excelente game sense. Sempre buscando 
@@ -903,7 +909,7 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                             <img src="imagens/halldafamamisterio.png" alt="DRK - AWPELOTTI">
                         </div>
                         <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
                     </div>
@@ -925,7 +931,7 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                             <img src="imagens/halldafamamisterio.png" alt="DRK - AWPELOTTI">
                         </div>
                         <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
                     </div>
@@ -947,7 +953,7 @@
                 <div class="membro-card">
                     <div class="membro-foto">
                         <div class="foto-circle">
-                            <span class="placeholder"><i class="fas fa-user"></i></span>
+                             <img src="imagens/halldafamamisterio.png" alt="DRK - AWPELOTTI">
                         </div>
                         <span class="cargo-tag"><i class="fas fa-star"></i> Jogador</span>
                     </div>
@@ -974,7 +980,7 @@
     <footer class="footer">
         <span class="footer-text">© 2026 DRK Clã CS2</span>
         <div class="footer-social">
-            <a href="https://discord.gg/aWCF8WXRM" target="_blank" title="Entre no nosso Discord">
+            <a href="https://discord.gg/aWCF8WXRM" target="_blank" title="Entre no seu Discord">
                 <i class="fab fa-discord"></i>
             </a>
         </div>
